@@ -1,0 +1,13 @@
+ion-content {
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    --background: transparent;
+  }
+  ion-label {
+    font-size: 1.1rem;
+  }
+  ion-button[color="danger"] {
+    margin-left: 0.5rem;
+  }
+}

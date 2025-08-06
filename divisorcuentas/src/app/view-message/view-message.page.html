@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [text]="getBackButtonText()"
+        defaultHref="/"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+@if (evento) {
+  <ion-content [fullscreen]="true">
+    <ion-item>
+      <ion-icon
+        aria-hidden="true"
+        name="person-circle"
+        color="primary"
+      ></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h2>
+          {{ evento.title }}
+          <span class="date">
+            <ion-note>{{ evento.date }}</ion-note>
+          </span>
+        </h2>
+        <h3>Ubicación: <ion-note>{{ evento.location }}</ion-note></h3>
+      </ion-label>
+    </ion-item>
+    <div class="ion-padding">
+      <p>
+        {{ evento.description }}
+      </p>
+      <p>
+        <strong>Participantes:</strong>
+      </p>
+      <p>
+        <strong>Completado:</strong> {{ evento.completed ? 'Sí' : 'No' }}
+      </p>
+    </div>
+  </ion-content>
+}

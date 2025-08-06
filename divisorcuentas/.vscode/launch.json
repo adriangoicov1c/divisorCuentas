@@ -1,0 +1,16 @@
+{
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Debug Angular/Ionic App",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start"
+      ],
+      "port": 9229,
+      "console": "integratedTerminal"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+<!-- @import FormsModule -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [text]="getBackButtonText()"
+        defaultHref="/home"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content *ngIf="evento" [fullscreen]="true">
+    <ion-item>
+      <ion-icon
+        aria-hidden="true"
+        name="person-circle"
+        color="primary"
+      ></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h2>
+          {{ evento.title }}
+          <span class="date">
+            <ion-note>{{ evento.date }}</ion-note>
+          </span>
+        </h2>
+        <h3>Ubicación: <ion-note>{{ evento.location }}</ion-note></h3>
+      </ion-label>
+    </ion-item>
+      <div class="ion-padding">
+        <p>
+          {{ evento.description }}
+        </p>
+        <ion-item>
+        <div>
+          <strong>Participantes:</strong>
+          
+          
+          <ul>
+            <li *ngFor="let participante of evento.participants">
+              {{ participante }}
+            </li>
+          </ul>
+          
+        </div>
+        <ion-button size="small" [routerLink]="['/participantes', evento.id]" style="margin-left: 1rem;float: right;">{{(evento.participants.length > 0)? "Editar": "Agregar"}}</ion-button>
+        </ion-item>
+        <ion-item [button]="true" detail="false">
+          
+          <div class="items-table-wrapper">
+            <hr>
+            <strong>Items:</strong>
+
+            <hr>
+            <table *ngIf="evento.items && evento.items.length > 0" class="items-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th class="text-right">Precio</th>
+                  <th>Asignado a</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of evento.items; let i = index">
+                  <td>{{ item.name }}</td>
+                  <td class="text-right">{{ item.price | clpCurrency }}</td>
+                  <td>
+                    <select [(ngModel)]="item.participant" class="form-control">
+                      <option [ngValue]="undefined">-- Seleccionar --</option>
+                      <option *ngFor="let participante of evento.participants" [ngValue]="participante">{{ participante }}</option>
+                    </select>
+                  </td>
+                </tr>
+                
+                <tr *ngIf="incluyePropina">
+                  <td  class="text-right"><strong>Propina (10%)</strong></td>
+                  <td colspan="2" class="text-right">
+                    {{ propina() | clpCurrency }}
+                  </td>
+                </tr>
+                <tr>
+                  <td  class="text-right"><strong>Total</strong></td>
+                  <td colspan="2" class="text-right">
+                    {{ total() | clpCurrency }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div>
+              <ion-button size="small" [routerLink]="['/items', evento.id]" style="margin-left: 0.5rem;float: right;">{{(evento!.items!.length > 0)? "Editar": "Agregar"}}</ion-button>  
+            </div>
+            <hr>
+            <hr>
+            <hr>
+          <div *ngIf="evento.items && evento.items.length > 0">
+            <input type="checkbox" name="confirm" id="confirm" [(ngModel)]="incluyePropina">
+            <label for="confirm">Incluye propina</label>
+          </div>
+            <hr>
+          </div>
+        </ion-item>
+        <ion-item>
+          
+
+          
+
+
+          <div *ngIf="evento.participants && evento.participants.length > 0" class="participants-table-wrapper" style="margin-top:2rem;">
+            <strong>Detalle por participante:</strong>
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th>Participante</th>
+                  <th class="text-right">Total asignado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let participante of evento.participants">
+                  <td>{{ participante }}</td>
+                  <td class="text-right">
+                    {{ getTotalPorParticipante(participante) | clpCurrency }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <hr>
+            <hr>
+          </div>
+          
+        </ion-item>
+
+
+    
+
+      </div>
+      
+  </ion-content>
+

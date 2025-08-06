@@ -1,0 +1,27 @@
+@if (evento) {
+  <ion-item [routerLink]="'/evento/' + evento.id" [detail]="false"
+    (mousedown)="onPointerDown()" (mouseup)="onPointerUp()" (mouseleave)="onPointerLeave()"
+    (touchstart)="onPointerDown()" (touchend)="onPointerUp()" (touchcancel)="onPointerLeave()"
+    (blur)="onBlur()" tabindex="0">
+    <div slot="start"></div>
+    <ion-label class="ion-text-wrap">
+      <h2>
+        {{ evento.title }}
+        <span class="date">
+          <ion-note>{{ evento.date }}</ion-note>
+          @if (isIos()) {
+            <ion-icon aria-hidden="true" name="chevron-forward" size="small"></ion-icon>
+          }
+        </span>
+      </h2>
+      <p>
+        {{ evento.description }}
+      </p>
+    </ion-label>
+    @if (showDelete) {
+      <ion-button slot="end" color="danger" fill="clear" (click)="onEliminar($event)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    }
+  </ion-item>
+}

@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Items</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button [routerLink]="['/evento', evento?.id]"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin: 1rem;">
+    <ion-input placeholder="Nombre del item" [(ngModel)]="nuevoNombre" style="flex:2;"></ion-input>
+    <ion-input placeholder="Monto" type="number" [(ngModel)]="nuevoMonto" style="flex:1;"></ion-input>
+    <ion-button (click)="agregarItem()" [disabled]="!nuevoNombre || !nuevoNombre.trim() || !nuevoMonto">Agregar</ion-button>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of items; let i = index">
+      <ion-label>{{ item.name }} - {{ item.price | clpCurrency }}</ion-label>
+      <ion-buttons slot="end">
+        <ion-button color="danger" (click)="eliminarItem(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

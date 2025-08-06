@@ -1,0 +1,15 @@
+ion-list {
+  margin-bottom: 1.5rem;
+}
+
+ion-modal {
+  --width: 90vw;
+  --height: 220px;
+}
+
+ion-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
