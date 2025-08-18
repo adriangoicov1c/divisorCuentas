@@ -55,7 +55,7 @@ export class HomePage {
       participants: [],
       items: [],
       description: '',
-      location: ''
+      incluyePropina: false
     });
     this.closeModal();
   }

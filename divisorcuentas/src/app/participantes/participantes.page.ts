@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonModal, IonInput, IonFooter } from '@ionic/angular/standalone';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { DataService, Evento } from '../services/data.service';
+import { DataService, Evento, Participants } from '../services/data.service';
 
 @Component({
   selector: 'app-participantes',
@@ -16,7 +16,7 @@ import { DataService, Evento } from '../services/data.service';
 })
 export class ParticipantesPage implements OnInit {
   public evento!: Evento;
-  participantes: string[] = [];
+  participantes: Participants[] = [];
   showModal = false;
   nombreParticipante = '';
   editIndex: number | null = null;
@@ -26,7 +26,11 @@ export class ParticipantesPage implements OnInit {
 
   agregarParticipante() {
     if (!this.nuevoParticipante || !this.nuevoParticipante.trim()) return;
-    this.participantes.push(this.nuevoParticipante.trim());
+    this.participantes.push({
+      name: this.nuevoParticipante.trim(),
+      montoApagar: 0,
+      pagado: false
+    });
     if (this.evento) {
       this.evento.participants = [...this.participantes];
       this.data.saveEvents();
@@ -52,18 +56,27 @@ export class ParticipantesPage implements OnInit {
   }
 
   editParticipante(index: number) {
-    this.nombreParticipante = this.participantes[index];
+    this.nombreParticipante = this.participantes[index].name;
     this.editIndex = index;
     this.showModal = true;
   }
 
 
+
   saveParticipante() {
     if (this.nombreParticipante.trim()) {
       if (this.editIndex !== null) {
-        this.participantes[this.editIndex] = this.nombreParticipante.trim();
+        this.participantes[this.editIndex] = {
+          name: this.nombreParticipante.trim(),
+          montoApagar: 0,
+          pagado: false
+        };
       } else {
-        this.participantes.push(this.nombreParticipante.trim());
+        this.participantes.push({
+          name: this.nombreParticipante.trim(),
+          pagado: false,
+          montoApagar: 0
+        });
       }
       if (this.evento) {
         this.evento.participants = [...this.participantes];

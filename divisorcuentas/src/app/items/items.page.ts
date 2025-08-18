@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgForOf, CurrencyPipe, CommonModule } from '@angular/common';
+import { NgForOf,  CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput } from '@ionic/angular/standalone';
 import { RouterModule, ActivatedRoute } from '@angular/router';
@@ -12,8 +12,8 @@ import { DataService, Evento, Items } from '../services/data.service';
   styleUrls: ['./items.page.scss'],
   standalone: true,
   imports: [
-    IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput,
-    FormsModule, NgForOf, RouterModule, CurrencyPipe, CommonModule, ClpCurrencyPipe
+    IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput, 
+    FormsModule, NgForOf, RouterModule,  CommonModule, ClpCurrencyPipe
   ]
 })
 export class ItemsPage implements OnInit {
@@ -38,7 +38,8 @@ export class ItemsPage implements OnInit {
     const nuevo: Items = {
       id: Date.now(),
       name: this.nuevoNombre.trim(),
-      price: Number(this.nuevoMonto)
+      price: Number(this.nuevoMonto),
+      participant: undefined
     };
     this.items.push(nuevo);
     if (this.evento) {
@@ -51,6 +52,14 @@ export class ItemsPage implements OnInit {
 
   eliminarItem(index: number) {
     this.items.splice(index, 1);
+    if (this.evento) {
+      this.evento.items = [...this.items];
+      this.data.saveEvents();
+    }
+  }
+
+  asignarParticipante(index: number, participante: string) {
+    this.items[index].participant = participante;
     if (this.evento) {
       this.evento.items = [...this.items];
       this.data.saveEvents();

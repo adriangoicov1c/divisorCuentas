@@ -25,7 +25,7 @@
             <ion-note>{{ evento.date }}</ion-note>
           </span>
         </h2>
-        <h3>Ubicación: <ion-note>{{ evento.location }}</ion-note></h3>
+        
       </ion-label>
     </ion-item>
       <div class="ion-padding">
@@ -39,14 +39,14 @@
           
           <ul>
             <li *ngFor="let participante of evento.participants">
-              {{ participante }}
+              {{ participante.name }}
             </li>
           </ul>
           
         </div>
         <ion-button size="small" [routerLink]="['/participantes', evento.id]" style="margin-left: 1rem;float: right;">{{(evento.participants.length > 0)? "Editar": "Agregar"}}</ion-button>
         </ion-item>
-        <ion-item [button]="true" detail="false">
+        <ion-item [button]="false" detail="false">
           
           <div class="items-table-wrapper">
             <hr>
@@ -66,9 +66,9 @@
                   <td>{{ item.name }}</td>
                   <td class="text-right">{{ item.price | clpCurrency }}</td>
                   <td>
-                    <select [(ngModel)]="item.participant" class="form-control">
+                    <select [(ngModel)]="item.participant" (ngModelChange)="calcularMontoApagar()" class="form-control">
                       <option [ngValue]="undefined">-- Seleccionar --</option>
-                      <option *ngFor="let participante of evento.participants" [ngValue]="participante">{{ participante }}</option>
+                      <option *ngFor="let participante of evento.participants" [ngValue]="participante.name">{{ participante.name }}</option>
                     </select>
                   </td>
                 </tr>
@@ -94,7 +94,7 @@
             <hr>
             <hr>
           <div *ngIf="evento.items && evento.items.length > 0">
-            <input type="checkbox" name="confirm" id="confirm" [(ngModel)]="incluyePropina">
+            <input type="checkbox" name="confirm" id="confirm" [(ngModel)]="incluyePropina" (change)="calcularMontoApagar()">
             <label for="confirm">Incluye propina</label>
           </div>
             <hr>
@@ -113,13 +113,23 @@
                 <tr>
                   <th>Participante</th>
                   <th class="text-right">Total asignado</th>
+                  <th class="text-right">Pagado</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let participante of evento.participants">
-                  <td>{{ participante }}</td>
+                  <td>{{ participante.name }}</td>
                   <td class="text-right">
-                    {{ getTotalPorParticipante(participante) | clpCurrency }}
+                    {{ participante.montoApagar | clpCurrency }}
+                  </td>
+                  <td>
+                    <input type="checkbox" name="confirm" id="confirm" [(ngModel)]="participante.pagado">
+                  </td>
+                </tr>
+                <tr>
+                  <td  class="text-right"><strong>Total</strong></td>
+                  <td colspan="2" class="text-right">
+                    {{ totalAsignado() | clpCurrency }}
                   </td>
                 </tr>
               </tbody>

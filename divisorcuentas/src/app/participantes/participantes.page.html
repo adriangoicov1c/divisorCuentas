@@ -4,16 +4,12 @@
     <ion-title>Participantes</ion-title>
     <ion-buttons slot="start">
       
-      <ion-back-button [routerLink]="['/evento', evento?.id]"
+      <ion-back-button [routerLink]="['/evento', evento!.id]"
         
 
       ></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="openAdd()">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -24,7 +20,7 @@
   </div>
   <ion-list>
     <ion-item *ngFor="let participante of participantes; let i = index">
-      <ion-label>{{ participante }}</ion-label>
+      <ion-label>{{ participante.name }}</ion-label>
       <ion-buttons slot="end">
         <ion-button color="primary" (click)="editParticipante(i)">
           <ion-icon name="create-outline"></ion-icon>

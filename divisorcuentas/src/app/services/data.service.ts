@@ -9,11 +9,16 @@ export interface Evento {
   title: string;
   date: string;
   description?: string;
-  location?: string;
-  participants: string[];
+  participants: Participants[];
   items?: Items[];
-  completed?: boolean;
+  incluyePropina: boolean;
   // Puedes agregar más campos según la gestión que necesites
+}
+
+export interface Participants {
+  name: string;
+  montoApagar: number;
+  pagado: boolean;
 }
 
 export interface Items {
@@ -39,7 +44,8 @@ export class DataService {
 
   async loadEvents() {
     const stored = await this.storageService.getEvents();
-    if (stored && stored.length) {
+    //const stored = null;
+    if (stored) {
       this.events = stored;
     } else {
       // Si no hay datos, inicializa con los de ejemplo
@@ -49,36 +55,33 @@ export class DataService {
           title: 'Trip to Vegas',
           date: '2023-10-01',
           description: 'Viaje con amigos a Las Vegas',
-          location: 'Las Vegas',
-          participants: ['Ana', 'Luis', 'Pedro', 'Sofía', 'Miguel'],
+          participants: [{ name: 'Ana', pagado: false, montoApagar: 0 }, { name: 'Luis', pagado: false, montoApagar: 0 }, { name: 'Pedro', pagado: false, montoApagar: 0 }, { name: 'Sofía', pagado: false, montoApagar: 0 }, { name: 'Miguel', pagado: false, montoApagar: 0 }],
           items: [],
-          completed: false
+          incluyePropina: false
         },
         {
           id: 1,
           title: 'Swim lessons',
           date: '2023-10-02',
           description: 'Clases de natación para niños',
-          location: 'Piscina Municipal',
-          participants: ['Carlos', 'Marta', 'Lucía', 'Andrés'],
+          participants: [{ name: 'Carlos', pagado: false, montoApagar: 0 }, { name: 'Marta', pagado: false, montoApagar: 0 }, { name: 'Lucía', pagado: false, montoApagar: 0 }, { name: 'Andrés', pagado: false, montoApagar: 0 }],
           items: [
-            { id: 0, name: 'Swim Gear', price: 50 },
-            { id: 1, name: 'Pool Passes', price: 10 }
+            { id: 0, name: 'Swim Gear', price: 50, participant: "Carlos" },
+            { id: 1, name: 'Pool Passes', price: 10, participant: undefined }
           ],
-          completed: false
+          incluyePropina: true
         },
         {
           id: 2,
           title: 'Family Calendar Meeting',
           date: '2023-10-03',
           description: 'Reunión familiar para organizar el calendario',
-          location: 'Casa',
-          participants: ['Juan', 'María', 'Elena', 'Pablo', 'Familia'],
+          participants: [{ name: 'Juan', pagado: false, montoApagar: 0 }, { name: 'María', pagado: false, montoApagar: 0 }, { name: 'Elena', pagado: false, montoApagar: 0 }, { name: 'Pablo', pagado: false, montoApagar: 0 }, { name: 'Familia', pagado: false, montoApagar: 0 }],
           items: [
             { id: 0, name: 'Agenda', price: 5 },
             { id: 1, name: 'Snacks', price: 10 }
           ],
-          completed: true
+          incluyePropina: false
         }
       ];
       await this.saveEvents();
