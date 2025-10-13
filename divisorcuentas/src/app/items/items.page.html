@@ -10,15 +10,21 @@
 
       ></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
- 
+    <ion-buttons slot="end">                   
+      <ion-button (click)="ocrInput.click()" [disabled]="ocrCargando">
+        <ion-icon name="camera-sharp"></ion-icon>
+        
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-  <ion-list style="height: 90%; overflow-y: auto;">
+
+  <ion-spinner *ngIf="ocrCargando" color="primary"></ion-spinner>
+  <ion-text color="danger" *ngIf="ocrError">{{ ocrError }}</ion-text>
+
+  <ion-list *ngIf="!ocrCargando" style="height: 90%; overflow-y: auto;">
     <ion-item *ngFor="let item of items; let i = index" style="margin-left: 1rem; margin-right: 1rem;">
       <ion-label>{{ item.name }} </ion-label>
       
@@ -34,5 +40,11 @@
     <ion-input placeholder="Nombre del item" [(ngModel)]="nuevoNombre" style="flex:2;"></ion-input>
     <ion-input placeholder="Monto" type="number" [(ngModel)]="nuevoMonto" style="flex:1;"></ion-input>
     <ion-button (click)="agregarItem()" [disabled]="!nuevoNombre || !nuevoNombre.trim() || !nuevoMonto">Agregar</ion-button>
+  </div>
+  <div style="margin: 1rem;">
+  <input #ocrInput type="file" accept="image/*" (change)="procesarImagen($event)" style="display:none" />
+  
+    
+    
   </div>
 </ion-content>

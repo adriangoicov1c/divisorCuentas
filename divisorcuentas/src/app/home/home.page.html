@@ -6,6 +6,9 @@
   </ion-toolbar>
 </ion-header>
 
+
+
+
 <ion-content [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -19,8 +22,13 @@
     </ion-toolbar>
   </ion-header>
 
+  
+  
+
   <ion-list >
     <ng-container *ngIf="eventos$ | async as eventos">
+
+      
       @for (event of eventos; track event) {
         <app-evento [evento]="event" (eliminar)="eliminarEvento($event)"></app-evento>
       }
