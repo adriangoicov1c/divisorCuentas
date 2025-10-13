@@ -8,6 +8,7 @@ import { IonText } from '@ionic/angular/standalone';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { DataService, Evento, Items } from '../services/data.service';
 import {  BoletaParseResult } from '../../utils/boleta-parser';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-items',
@@ -131,8 +132,9 @@ export class ItemsPage implements OnInit {
 
 
   async callGeminiWithImage(base64: string, prompt: string): Promise<string> {
-    const apiKey = 'AIzaSyAFEo4r7WAUNpEI3yDMMoTJm1DyY1ijMRw';  // mejor mover al backend
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  // Leer la API key de Gemini desde environment
+  const apiKey = environment.geminiApiKey;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const body = {
       contents: [
