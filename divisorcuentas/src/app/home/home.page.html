@@ -34,13 +34,16 @@
       }
     </ng-container>
   </ion-list>
+  
+  <ion-fab slot="fixed" style="bottom: 100px; right: 24px; position: absolute;">
+    <ion-fab-button (click)="openAddModal()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
 </ion-content>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button (click)="openAddModal()">
-    <ion-icon name="add-outline"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
 
 <ion-modal [isOpen]="showModal" (didDismiss)="closeModal()">
   <ng-template>
@@ -50,18 +53,33 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
+      
       <ion-item>
-        <ion-label position="floating">Título</ion-label>
-        <ion-input [(ngModel)]="nuevoTitulo"></ion-input>
+        
+        <div class="flex flex-col width-full margin-top-5">
+          <ion-label >Título</ion-label>
+          <ion-input  autocapitalize="characters" [(ngModel)]="nuevoTitulo" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal" id="event-name" placeholder="Ej: Cena de fin de año" value=""></ion-input>
+          
+        </div>
         
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Fecha</ion-label>
-        <ion-input [(ngModel)]="nuevaFecha" type="date"></ion-input>
+
+        <div class="flex flex-col width-full margin-top-5">
+          <ion-label>Fecha</ion-label>
+
+          <ion-input [(ngModel)]="nuevaFecha" type="date" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal" id="event-date" placeholder="Seleccionar fecha" value=""></ion-input>
+
+        </div>
+
       </ion-item>
       <ion-footer>
+        
+        <div class="flex flex-col width-full margin-top-5">
         <ion-button expand="block" (click)="agregarEvento()" [disabled]="!nuevoTitulo || !nuevaFecha">Guardar</ion-button>
+        
         <ion-button expand="block" color="medium" (click)="closeModal()">Cancelar</ion-button>
+        </div>
       </ion-footer>
     </ion-content>
   </ng-template>

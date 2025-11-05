@@ -1,7 +1,6 @@
-
 import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RefresherCustomEvent, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList, IonButton, IonFab, IonFabButton, IonIcon, IonModal, IonFooter, IonInput, IonLabel, IonItem } from '@ionic/angular/standalone';
+import { RefresherCustomEvent, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList, IonButton, IonFab,  IonIcon, IonModal, IonFooter, IonInput, IonLabel, IonItem, IonFabButton, IonButtons } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
@@ -15,7 +14,7 @@ import { Router } from '@angular/router';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList, EventoComponent, IonButton, IonFab, IonFabButton, IonIcon, IonModal, IonFooter, IonInput, IonLabel, IonItem, FormsModule, CommonModule],
+  imports: [ IonFabButton, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList, EventoComponent, IonButton, IonFab,  IonIcon, IonModal, IonFooter, IonInput, IonLabel, IonItem, FormsModule, CommonModule],
 })
 export class HomePage {
   private data = inject(DataService);

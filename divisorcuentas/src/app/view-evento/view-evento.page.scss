@@ -31,6 +31,12 @@ ion-item ion-note {
   font-weight: normal;
 }
 
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  
+}
+
 .items-table{
   width: 100%;
   border-collapse: collapse;
@@ -45,4 +51,16 @@ ion-item ion-note {
 .items-table th {
   
   text-align: left;
+}
+
+.participants-section {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  width: 100%;
+  padding: 5%;
+}
+
+.flex-grow
+{
+  width: 33%;
 }

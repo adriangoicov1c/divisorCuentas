@@ -1,7 +1,11 @@
+
 ion-content {
+  /* allow JS to set a simulated keyboard padding via --padding-bottom */
+  padding-bottom: var(--padding-bottom, 0px) !important;
+  
   ion-item {
-    --padding-start: 0;
-    --inner-padding-end: 0;
+    
+    
     --background: transparent;
   }
   ion-label {
@@ -10,4 +14,72 @@ ion-content {
   ion-button[color="danger"] {
     margin-left: 0.5rem;
   }
+
+ 
+}
+
+
+ion-input input[type="number"] {
+  padding: 8px 12px !important;
+  background: #fff !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  box-shadow: none !important;
+  height: 40px !important;
+  appearance: textfield;
+}
+
+/* Dev keyboard simulator styles */
+body.keyboard-simulated ion-content {
+  padding-bottom: 320px !important; /* simulate keyboard height */
+}
+body.keyboard-simulated .keyboard-overlay {
+  display: block !important;
+}
+/* overlay element (hidden by default) */
+.keyboard-overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 320px;
+  background: rgba(0,0,0,0.05);
+  z-index: 9999;
+}
+
+/* global overlay created dynamically by TS (keeps same styles) */
+.keyboard-overlay-global {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 320px;
+  background: rgba(0,0,0,0.05);
+  z-index: 9999;
+}
+
+body.keyboard-simulated .keyboard-overlay-global {
+  display: block !important;
+}
+
+
+.spin{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+ }
+ ion-spinner {
+    width: 28px;
+    height: 28px;
+    stroke: #444;
+    fill: #222;
+ }
+
+
+ .keyboard-is-open ion-content {
+  --overflow: auto;
 }
