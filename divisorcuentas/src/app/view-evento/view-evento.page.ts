@@ -6,7 +6,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { JsonPipe, NgIf, NgFor,  CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
 import { ActivatedRoute } from '@angular/router';
-import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle } from '@ionic/angular/standalone';
+import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { personCircle, trashOutline } from 'ionicons/icons';
@@ -17,7 +17,7 @@ import { DataService, Evento, Participants } from '../services/data.service';
   templateUrl: './view-evento.page.html',
   styleUrls: ['./view-evento.page.scss'],
   standalone: true,
-  imports: [IonTitle, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent,  CommonModule, NgIf, NgFor,  FormsModule, RouterModule, ClpCurrencyPipe],
+  imports: [IonLabel, IonAccordionGroup, IonItem, IonAccordion, IonTitle, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent,  CommonModule, NgIf, NgFor,  FormsModule, RouterModule, ClpCurrencyPipe],
 })
 export class ViewEventoPage implements OnInit {
   public evento!: Evento;
