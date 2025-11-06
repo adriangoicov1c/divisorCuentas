@@ -50,15 +50,31 @@
   <input #ocrInput id="ocrInput" type="file" accept="image/*" capture="environment" (change)="procesarImagen($event)" style="display:none" />
 
 
-  <ion-toolbar>
+  <ion-toolbar  class="scroll-content">
     
-      <ion-input  autocapitalize="characters" placeholder="Nombre item" [(ngModel)]="nuevoNombre" (ionFocus)="onFocus($event)" style="flex:1"></ion-input>
+      <ion-input  autocapitalize="words" placeholder="Nombre item" [(ngModel)]="nuevoNombre" (ionFocus)="onFocus($event)" style="flex:1"></ion-input>
       <ion-input (ionFocus)="onFocus($event)" inputmode="numeric" placeholder="Monto" [(ngModel)]="nuevoMonto" style="width:120px"></ion-input>
       <ion-button (click)="agregarItem()" [disabled]="!nuevoNombre || !nuevoNombre.trim() || !nuevoMonto">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     
   </ion-toolbar>
+
+  
+
+  <ion-footer>
+  <ion-toolbar>
+    <div class="form-row">
+      <ion-input placeholder="Nombre"></ion-input>
+      <ion-input type="email" placeholder="Correo"></ion-input>
+      <ion-button expand="block" color="primary">OK</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+
+  
+
+  
 
 
 </ion-content>
