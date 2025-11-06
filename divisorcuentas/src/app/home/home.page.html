@@ -22,18 +22,17 @@
     </ion-toolbar>
   </ion-header>
 
-  
-  
-
-  <ion-list >
-    <ng-container *ngIf="eventos$ | async as eventos">
-
-      
-      @for (event of eventos; track event) {
+  <ion-content *ngIf="eventos$ | async as eventos">
+    @for (event of eventos; track event) {
         <app-evento [evento]="event" (eliminar)="eliminarEvento($event)"></app-evento>
       }
-    </ng-container>
-  </ion-list>
+  </ion-content>
+
+  
+  
+
+
+  
   
   <ion-fab slot="fixed" style="bottom: 100px; right: 24px; position: absolute;">
     <ion-fab-button (click)="openAddModal()">

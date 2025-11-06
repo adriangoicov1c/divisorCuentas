@@ -2,12 +2,14 @@
 
 
 
-
+<!--
 
   <ion-item [routerLink]="'/evento/' + evento.id" [detail]="false"
     (mousedown)="onPointerDown()" (mouseup)="onPointerUp()" (mouseleave)="onPointerLeave()"
     (touchstart)="onPointerDown()" (touchend)="onPointerUp()" (touchcancel)="onPointerLeave()"
     (blur)="onBlur()" tabindex="0">
+
+
     <div slot="start"></div>
     <ion-label class="ion-text-wrap">
       
@@ -30,4 +32,37 @@
       </ion-button>
     }
   </ion-item>
+  -->
+<section  class="flex items-center gap-4 p-1  " [routerLink]="'/evento/' + evento.id"     (mousedown)="onPointerDown()" (mouseup)="onPointerUp()" (mouseleave)="onPointerLeave()"
+    (touchstart)="onPointerDown()" (touchend)="onPointerUp()" (touchcancel)="onPointerLeave()"
+    (blur)="onBlur()" tabindex="0">
+  <div class="flex items-center gap-4 p-3 rounded-lg bg-white dark:bg-background-dark/50"
+    style="background-color: #06192D;width: 100%; ">
+
+    <div slot="start"></div>
+    <ion-label class="ion-text-wrap" style="width: 100%;">
+
+      <h2 class="font-bold text-base">
+
+        {{ evento.title }}
+        <span class="date" style="width: 30%;">
+          
+
+          
+          <ion-icon aria-hidden="true" name="chevron-forward" size="small" style="float: inline-end;"></ion-icon>
+          <ion-note style="margin-right: 10%;float: inline-end;">{{ evento.date }}</ion-note>
+      
+        </span>
+      </h2>
+
+      
+
+    </ion-label>
+    @if (showDelete) {
+    <ion-button slot="end" color="danger" fill="clear" (click)="onEliminar($event)">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+    }
+  </div>
+  </section>
 }
