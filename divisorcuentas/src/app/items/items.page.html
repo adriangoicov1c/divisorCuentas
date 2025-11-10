@@ -19,7 +19,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content >
 
   <div *ngIf="ocrCargando" class="spin">
     <ion-spinner color="primary"></ion-spinner>
@@ -28,12 +28,6 @@
 
   <ion-text color="danger" *ngIf="ocrError">{{ ocrError }}</ion-text>
 
-  <!-- DEV: Keyboard simulator toggle (only for debugging in browser) 
-  <div style="position: absolute; top: 8px; right: 8px; z-index: 999;">
-    <ion-button size="small" color="tertiary" (click)="toggleKeyboard()">
-      {{ keyboardSimulated ? 'Hide KB' : 'Show KB' }}
-    </ion-button>
-  </div>-->
 
   <ion-list *ngIf="!ocrCargando" style="overflow-y: auto; padding: 1rem;">
     <ion-item *ngFor="let item of items; let i = index">
@@ -50,27 +44,6 @@
   <input #ocrInput id="ocrInput" type="file" accept="image/*" capture="environment" (change)="procesarImagen($event)" style="display:none" />
 
 
-  <ion-toolbar  class="scroll-content">
-    
-      <ion-input  autocapitalize="words" placeholder="Nombre item" [(ngModel)]="nuevoNombre" (ionFocus)="onFocus($event)" style="flex:1"></ion-input>
-      <ion-input (ionFocus)="onFocus($event)" inputmode="numeric" placeholder="Monto" [(ngModel)]="nuevoMonto" style="width:120px"></ion-input>
-      <ion-button (click)="agregarItem()" [disabled]="!nuevoNombre || !nuevoNombre.trim() || !nuevoMonto">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-button>
-    
-  </ion-toolbar>
-
-  
-
-  <ion-footer>
-  <ion-toolbar>
-    <div class="form-row">
-      <ion-input placeholder="Nombre"></ion-input>
-      <ion-input type="email" placeholder="Correo"></ion-input>
-      <ion-button expand="block" color="primary">OK</ion-button>
-    </div>
-  </ion-toolbar>
-</ion-footer>
 
   
 
@@ -78,5 +51,11 @@
 
 
 </ion-content>
-
+<div class="fixed-footer">
+  <ion-item lines="none" class="form-row">
+    <ion-input placeholder="Nombre"></ion-input>
+    <ion-input type="email" placeholder="Correo"></ion-input>
+    <ion-button color="primary" expand="block">OK</ion-button>
+  </ion-item>
+</div>
 

@@ -83,29 +83,37 @@ body.keyboard-simulated .keyboard-overlay-global {
  .keyboard-is-open ion-content {
   --overflow: auto;
 }
-.scroll-content {
-  padding: 16px;
-  padding-bottom: 100px; // deja espacio para el formulario
+ion-content {
+  /* Asegura que el contenido deje espacio para el footer */
+  --padding-bottom: 90px;
 }
 
-.fixed-form {
+.footer-visible {
   position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: var(--ion-background-color);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  bottom: env(safe-area-inset-bottom); /* asegura visibilidad en iOS */
+  left: 0;
+  right: 0;
+  background: var(--ion-background-color, #fff);
+  border-top: 1px solid var(--ion-color-medium);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 12px;
+  z-index: 9999; /* muy alto para que quede encima siempre */
 }
 
-/* Distribución horizontal */
+/* Layout horizontal */
 .form-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
+  width: 100%;
+  margin: 0;
 }
 
-/* Cada elemento ocupa un tercio del ancho */
-.form-row ion-input,
+/* Reparto proporcional */
+.form-row ion-input {
+  flex: 1 1 35%;
+}
+
 .form-row ion-button {
-  flex: 1;
+  flex: 0 0 25%; /* botón más pequeño */
 }

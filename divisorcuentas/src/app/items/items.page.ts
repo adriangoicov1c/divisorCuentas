@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForOf,  CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput, IonFooter, IonFab, IonFabButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput, IonFooter, IonFab, IonFabButton, IonCardHeader, IonCardContent, IonCardTitle, IonCard } from '@ionic/angular/standalone';
 import { IonSpinner } from '@ionic/angular/standalone';
 import { IonText } from '@ionic/angular/standalone';
 import { RouterModule, ActivatedRoute } from '@angular/router';
@@ -16,7 +16,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './items.page.html',
   styleUrls: ['./items.page.scss'],
   standalone: true,
-  imports: [IonFabButton, IonFab,
+  imports: [IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonFabButton, IonFab,
     IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput,
     FormsModule, NgForOf, RouterModule, CommonModule, ClpCurrencyPipe,
     IonText, IonSpinner, IonFooter]
