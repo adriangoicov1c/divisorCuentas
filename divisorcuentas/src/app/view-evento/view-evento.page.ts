@@ -62,8 +62,9 @@ export class ViewEventoPage implements OnInit {
   calcularMontoApagar()  {
     
     if (!this.evento || !this.evento.items) return;
-    
+    this.evento.incluyePropina = this.incluyePropina;
     this.evento.participants.forEach(participante => {
+
       participante.montoApagar = this.evento.items!
         .filter(item => item.participant === participante.name)
         .reduce((acc, item) => acc + item.price, 0);
