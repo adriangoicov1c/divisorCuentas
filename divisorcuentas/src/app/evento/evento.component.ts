@@ -11,7 +11,7 @@ import { Evento } from '../services/data.service';
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, IonItem, IonLabel, IonNote, IonIcon, IonButton],
+  imports: [RouterLink, IonLabel, IonNote, IonIcon, IonButton],
 })
 export class EventoComponent {
   private platform = inject(Platform);

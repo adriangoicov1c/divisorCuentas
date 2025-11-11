@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [ IonFabButton, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList, EventoComponent, IonButton, IonFab,  IonIcon, IonModal, IonFooter, IonInput, IonLabel, IonItem, FormsModule, CommonModule],
+  imports: [ IonFabButton, IonHeader, IonToolbar, IonTitle, IonContent, EventoComponent, IonButton, IonFab,  IonIcon, IonModal, IonFooter, IonInput, IonLabel, IonItem, FormsModule, CommonModule],
 })
 export class HomePage {
   private data = inject(DataService);

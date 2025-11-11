@@ -9,10 +9,8 @@
 
 
 
-<ion-content [fullscreen]="true">
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+<ion-content >
+
 
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -22,7 +20,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content *ngIf="eventos$ | async as eventos">
+  <ion-content class="ion-padding-bottom" [fullscreen]="true" scroll-events="true" *ngIf="eventos$ | async as eventos">
     @for (event of eventos; track event) {
         <app-evento [evento]="event" (eliminar)="eliminarEvento($event)"></app-evento>
       }

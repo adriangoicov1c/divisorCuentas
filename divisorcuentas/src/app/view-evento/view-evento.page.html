@@ -63,21 +63,26 @@
               <div class="flex-grow">
                 <p>{{ item.name }}</p>
               </div>
-              <div>
-                <td class="font-semibold text-sm shrink-0" style="float: inline-end;">{{ item.price | clpCurrency }}
-                </td>
+              <div style="display: block; text-align: center;">
+                
+                <label  style="margin: auto;">{{ item.price | clpCurrency }}</label>
+                  
+                  
+                  
+
+                <br>
 
 
-                <div>
-                  <label class="sr-only" for="assign-decoracion">Asignar a</label>
+                
+                  
                   <select [(ngModel)]="item.participant" (ngModelChange)="calcularMontoApagar()"
                     class="w-full bg-background-light dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5"
-                    id="assign-decoracion">
-                    <option [ngValue]="undefined">-- Seleccionar --</option>
+                    id="assign-decoracion" style="margin-top: 1rem;">
+                    <option [ngValue]="undefined">  -- Seleccionar --  </option>
                     <option *ngFor="let participante of evento.participants" [ngValue]="participante.name">{{
                       participante.name }}</option>
                   </select>
-                </div>
+                
               </div>
             </div>
           </div>

@@ -17,7 +17,7 @@ import { DataService, Evento, Participants } from '../services/data.service';
   templateUrl: './view-evento.page.html',
   styleUrls: ['./view-evento.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonAccordionGroup, IonItem, IonAccordion, IonTitle, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent,  CommonModule, NgIf, NgFor,  FormsModule, RouterModule, ClpCurrencyPipe],
+  imports: [IonAccordionGroup, IonItem, IonAccordion, IonTitle, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent,  CommonModule, NgIf, NgFor,  FormsModule, RouterModule, ClpCurrencyPipe],
 })
 export class ViewEventoPage implements OnInit {
   public evento!: Evento;

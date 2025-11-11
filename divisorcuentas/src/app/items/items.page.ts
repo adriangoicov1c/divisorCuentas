@@ -16,10 +16,10 @@ import { environment } from '../../environments/environment';
   templateUrl: './items.page.html',
   styleUrls: ['./items.page.scss'],
   standalone: true,
-  imports: [IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonFabButton, IonFab,
+  imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput,
     FormsModule, NgForOf, RouterModule, CommonModule, ClpCurrencyPipe,
-    IonText, IonSpinner, IonFooter]
+    IonText, IonSpinner]
 })
 export class ItemsPage implements OnInit, OnDestroy {
   // Dev-only keyboard simulator
