@@ -15,7 +15,7 @@
 
 <ion-content [fullscreen]="true">
   <div style="display: flex; gap: 0.5rem; align-items: center; margin: 1rem;">
-    <ion-input  autocapitalize="characters" placeholder="Agregar participante" [(ngModel)]="nuevoParticipante" style="flex:1;"></ion-input>
+    <ion-input  autocapitalize="sentences" placeholder="Agregar participante" [(ngModel)]="nuevoParticipante" style="flex:1;"></ion-input>
     <ion-button (click)="agregarParticipante()" [disabled]="!nuevoParticipante || !nuevoParticipante.trim()">Agregar</ion-button>
   </div>
   <ion-list>
@@ -42,7 +42,7 @@
       <ion-content>
         <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input  autocapitalize="characters" [(ngModel)]="nombreParticipante"></ion-input>
+          <ion-input  autocapitalize="sentences" [(ngModel)]="nombreParticipante"></ion-input>
         </ion-item>
         <ion-footer>
           <ion-button expand="block" (click)="saveParticipante()">Guardar</ion-button>

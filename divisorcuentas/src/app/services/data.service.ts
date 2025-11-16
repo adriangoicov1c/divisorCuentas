@@ -25,7 +25,7 @@ export interface Items {
   id: number;
   name: string;
   price: number;
-  participant?: string;
+  participant: string[];
 }
 
 @Injectable({
@@ -66,8 +66,8 @@ export class DataService {
           description: 'Clases de natación para niños',
           participants: [{ name: 'Carlos', pagado: false, montoApagar: 0 }, { name: 'Marta', pagado: false, montoApagar: 0 }, { name: 'Lucía', pagado: false, montoApagar: 0 }, { name: 'Andrés', pagado: false, montoApagar: 0 }],
           items: [
-            { id: 0, name: 'Swim Gear', price: 50, participant: "Carlos" },
-            { id: 1, name: 'Pool Passes', price: 10, participant: undefined }
+            { id: 0, name: 'Swim Gear', price: 50, participant: ["Carlos"] },
+            { id: 1, name: 'Pool Passes', price: 10, participant: [] }
           ],
           incluyePropina: true
         },
@@ -78,8 +78,8 @@ export class DataService {
           description: 'Reunión familiar para organizar el calendario',
           participants: [{ name: 'Juan', pagado: false, montoApagar: 0 }, { name: 'María', pagado: false, montoApagar: 0 }, { name: 'Elena', pagado: false, montoApagar: 0 }, { name: 'Pablo', pagado: false, montoApagar: 0 }, { name: 'Familia', pagado: false, montoApagar: 0 }],
           items: [
-            { id: 0, name: 'Agenda', price: 5 },
-            { id: 1, name: 'Snacks', price: 10 }
+            { id: 0, name: 'Agenda', price: 5, participant: [] },
+            { id: 1, name: 'Snacks', price: 10, participant: [] }
           ],
           incluyePropina: false
         }

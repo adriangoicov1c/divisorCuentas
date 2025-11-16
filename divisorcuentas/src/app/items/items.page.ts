@@ -318,7 +318,7 @@ export class ItemsPage implements OnInit, OnDestroy {
       id: Date.now(),
       name: this.nuevoNombre.trim(),
       price: Number(this.nuevoMonto),
-      participant: undefined
+      participant: []
     };
     this.items.push(nuevo);
     if (this.evento) {
@@ -360,6 +360,8 @@ export class ItemsPage implements OnInit, OnDestroy {
   _handleReaderLoaded(readerEvt: any) {
       var binaryString = readerEvt.target.result;
       this.base64textString= btoa(binaryString);
+            this.ocrCargando = true;
+            this.ocrError = '';
             this.callGeminiWithImage(this.base64textString,
       "Identifica los items de la boleta:\n\n" +
       "Extrae los items en formato JSON, donde cada item tiene 'name', 'cantidad' y 'price'. " +
@@ -374,23 +376,50 @@ export class ItemsPage implements OnInit, OnDestroy {
       "\"cuadratura\": true," +
       "\"items\": [" +
       "[{\"name\": \"Item1\", \"cantidad\": 2, \"price\": 3000}, {\"name\": \"Item2\", \"cantidad\": 1, \"price\": 1500}]" +
-      "]}" +
-      ")").then(responseText => {
-        responseText = responseText.replace(/(\r\n|\n|\r)/gm, "")
-        .replace('```json', '')
-        .replace('```', '')
-        .trim();
-
-        var responseJson = JSON.parse(responseText);
-        console.log('Respuesta de Gemini:', responseJson);
-
-
-         if (this.evento) {
-          this.evento.items = [...responseJson.items];
-          this.data.saveEvents();
+      "]}" 
+      ).then(responseText => {
+        try {
+          responseText = responseText.replace(/(\r\n|\n|\r)/gm, "")
+            .replace('```json', '')
+            .replace('```', '')
+            .trim();
+          // Asegurar que la respuesta sea un objeto JSON válido
+          let responseJson;
+          try {
+            responseJson = JSON.parse(responseText);
+          } catch (e) {
+            // Intentar extraer solo el objeto JSON si hay texto extra
+            const match = responseText.match(/\{.*\}/);
+            if (match) {
+              responseJson = JSON.parse(match[0]);
+            } else {
+              throw new Error('Formato de respuesta inválido');
+            }
+          }
+          // Validar que items sea un array
+          if (!responseJson.items || !Array.isArray(responseJson.items)) {
+            throw new Error('La respuesta no contiene un array de items válido');
+          }
+          // Normalizar items para visualización
+          const items = responseJson.items.map((item: any) => ({
+            name: item.name || '',
+            price: Number(item.price) || 0,
+            cantidad: item.cantidad ? Number(item.cantidad) : 1,
+            participant: item.participant || []
+          }));
+          if (this.evento) {
+            this.evento.items = [...items];
+            this.data.saveEvents();
+            this.ocrCargando = false;
+            this.ngOnInit();
+          }
+        } catch (err: any) {
+          this.ocrError = 'Error procesando la respuesta de Gemini: ' + (err.message || err);
           this.ocrCargando = false;
-          this.ngOnInit();
         }
+      }).catch(err => {
+        this.ocrError = 'Error en la solicitud a Gemini: ' + (err.message || err);
+        this.ocrCargando = false;
       });
 
   }
@@ -399,6 +428,7 @@ export class ItemsPage implements OnInit, OnDestroy {
 
   async callGeminiWithImage(base64: string, prompt: string): Promise<string> {
   // Leer la API key de Gemini desde environment
+  //const apiKey = environment.geminiApiKey;
   const apiKey = environment.geminiApiKey;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
@@ -444,7 +474,7 @@ export class ItemsPage implements OnInit, OnDestroy {
 
 
   asignarParticipante(index: number, participante: string) {
-    this.items[index].participant = participante;
+    this.items[index].participant.push(participante);
     if (this.evento) {
       this.evento.items = [...this.items];
       this.data.saveEvents();
