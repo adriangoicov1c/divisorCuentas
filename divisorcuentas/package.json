@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^20.0.0",
     "@angular/router": "^20.0.0",
     "@awesome-cordova-plugins/camera": "^8.1.0",
+    "@awesome-cordova-plugins/core": "^8.1.0",
     "@awesome-cordova-plugins/keyboard": "^8.1.0",
     "@capacitor/app": "7.1.0",
     "@capacitor/core": "7.4.3",
@@ -89,8 +90,6 @@
         "ANDROIDX_CORE_VERSION": "1.6.+"
       }
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
