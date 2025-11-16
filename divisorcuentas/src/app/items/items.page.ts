@@ -17,7 +17,7 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./items.page.scss'],
   standalone: true,
   imports: [ IonModal,
-    IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput,
+    IonHeader, IonToolbar, IonTitle, IonContent,  IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput,
     FormsModule, NgForOf, RouterModule, CommonModule, ClpCurrencyPipe, IonFab, IonFabButton, IonFooter,
     IonText, IonSpinner]
 })

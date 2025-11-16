@@ -1,12 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+
 
 import { DataService } from './data.service';
 
-describe('DataService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+// Mock para StorageService
+class MockStorageService {
+  getEvents() { return Promise.resolve([]); }
+  setEvents(events: any[]) { return Promise.resolve(); }
+}
 
+describe('DataService', () => {
   it('should be created', () => {
-    const service: DataService = TestBed.inject(DataService);
+    const service = new DataService(new MockStorageService() as any);
     expect(service).toBeTruthy();
   });
 });

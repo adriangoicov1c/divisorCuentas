@@ -18,7 +18,7 @@ export class EventoComponent {
   @Input() evento?: Evento;
   @Output() eliminar = new EventEmitter<number>();
   showDelete = false;
-  private longPressTimeout: any;
+  protected longPressTimeout: any;
 
   isIos() {
     return this.platform.is('ios');

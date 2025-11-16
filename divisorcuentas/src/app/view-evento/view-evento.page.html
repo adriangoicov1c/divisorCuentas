@@ -141,7 +141,9 @@
 
       <div *ngIf="evento.items && evento.items.length > 0">
         <label class="flex gap-x-3 py-3 items-center">
-          <input [(ngModel)]="incluyePropina" checked=""
+          <input [(ngModel)]="incluyePropina" 
+
+            (change)="calcularMontoApagar()"
             class="h-5 w-5 rounded-lg border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#1A5A96] border-[#1A5A96]"
             type="checkbox" />
           <p class="text-white text-base font-normal leading-normal">Incluye propina</p>
