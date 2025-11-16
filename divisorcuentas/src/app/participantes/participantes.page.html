@@ -14,23 +14,42 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div style="display: flex; gap: 0.5rem; align-items: center; margin: 1rem;">
-    <ion-input  autocapitalize="sentences" placeholder="Agregar participante" [(ngModel)]="nuevoParticipante" style="flex:1;"></ion-input>
-    <ion-button (click)="agregarParticipante()" [disabled]="!nuevoParticipante || !nuevoParticipante.trim()">Agregar</ion-button>
-  </div>
-  <ion-list>
-    <ion-item *ngFor="let participante of participantes; let i = index">
-      <ion-label>{{ participante.name }}</ion-label>
-      <ion-buttons slot="end">
-        <ion-button color="primary" (click)="editParticipante(i)">
-          <ion-icon name="create-outline"></ion-icon>
-        </ion-button>
-        <ion-button color="danger" (click)="deleteParticipante(i)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
+
+
+  <section *ngFor="let participante of participantes; let i = index" class="flex items-center gap-4 p-1">
+    <div class="flex items-center gap-4 p-3 rounded-lg bg-white dark:bg-background-dark/50"
+      style="background-color: #06192D;width: 100%; ">
+
+      <div slot="start"></div>
+
+
+      <div style="align-items: center;display: flex;width: 100%;">
+
+        <div style="width: 65%;">
+          {{ participante.name }}
+        </div>
+ 
+        <div style="width: 15%;">
+          <ion-button color="primary" (click)="editParticipante(i)">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
+
+        </div>
+        <div style="width: 15%;">
+          <ion-button color="danger" (click)="deleteParticipante(i)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </section>
+
 
   <ion-modal [isOpen]="showModal" (didDismiss)="closeModal()">
     <ng-template>
@@ -52,3 +71,10 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+
+
+<ion-fab slot="fixed" style="bottom: 100px; right: 24px; position: absolute;">
+  <ion-fab-button (click)="openAdd()">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

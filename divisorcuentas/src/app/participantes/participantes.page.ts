@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonModal, IonInput, IonFooter } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonModal, IonInput, IonFooter, IonFabButton, IonFab } from '@ionic/angular/standalone';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { DataService, Evento, Participants } from '../services/data.service';
 
@@ -10,7 +10,7 @@ import { DataService, Evento, Participants } from '../services/data.service';
   templateUrl: './participantes.page.html',
   styleUrls: ['./participantes.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonFab, IonFabButton, 
     IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonModal, IonInput, IonFooter, FormsModule, NgForOf, RouterModule
   ]
 })

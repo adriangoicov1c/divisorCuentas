@@ -4,22 +4,16 @@
   <ion-toolbar>
     <ion-title>Items</ion-title>
     <ion-buttons slot="start">
-      
-      <ion-back-button [routerLink]="['/evento', evento!.id]"
-        
 
-      ></ion-back-button>
+      <ion-back-button [routerLink]="['/evento', evento!.id]"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">                   
-      <ion-button (click)="abrirCamaraOGaleria()" [disabled]="ocrCargando">
-        <ion-icon name="camera-sharp"></ion-icon>
-        
-      </ion-button>
+    <ion-buttons slot="end">
+      
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content>
 
   <div *ngIf="ocrCargando" class="spin">
     <ion-spinner color="primary"></ion-spinner>
@@ -28,40 +22,40 @@
 
   <ion-text color="danger" *ngIf="ocrError">{{ ocrError }}</ion-text>
 
-<section *ngFor="let item of items; let i = index" class="flex items-center gap-4 p-1" >
-  <div class="flex items-center gap-4 p-3 rounded-lg bg-white dark:bg-background-dark/50"
-    style="background-color: #06192D;width: 100%; ">
+  <section *ngFor="let item of items; let i = index" class="flex items-center gap-4 p-1">
+    <div class="flex items-center gap-4 p-3 rounded-lg bg-white dark:bg-background-dark/50"
+      style="background-color: #06192D;width: 100%; ">
 
-    <div slot="start"></div>
-    
+      <div slot="start"></div>
+
 
       <div style="align-items: center;display: flex;width: 100%;">
 
-        <div style="width: 30%;">
+        <div style="width: 35%;">
           {{ item.name }}
         </div>
         <div style="width: 30%;">
-            <ion-label>{{ item.price | clpCurrency }}</ion-label>
+          <ion-label>{{ item.price | clpCurrency }}</ion-label>
         </div>
         <div style="width: 15%;">
           <ion-button color="primary" (click)="editarItem(i)">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
-      
+
         </div>
         <div style="width: 15%;">
           <ion-button color="danger" (click)="eliminarItem(i)">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-button>
-      
+
         </div>
       </div>
 
-      
 
-    
 
-  </div>
+
+
+    </div>
   </section>
 
   <!--
@@ -79,25 +73,35 @@
 
   -->
 
-  <input #ocrInput id="ocrInput" type="file" accept="image/*" capture="environment" (change)="procesarImagen($event)" style="display:none" />
+  <input #ocrInput id="ocrInput" type="file" accept="image/*" capture="environment" (change)="procesarImagen($event)"
+    style="display:none" />
 
 
 
-  
 
-  
+
+
 
 
 </ion-content>
 
+<ion-fab slot="fixed" style="bottom: 100px; right: 100px; position: absolute;">
+  <ion-fab-button (click)="abrirCamaraOGaleria()">
+        <ion-icon name="camera-sharp"></ion-icon>
+
+      
+  </ion-fab-button>
+</ion-fab>
+
+
 <ion-fab slot="fixed" style="bottom: 100px; right: 24px; position: absolute;">
-    <ion-fab-button (click)="openAddModal()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <ion-fab-button (click)="openAddModal()">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 
-  <ion-modal [isOpen]="showModal" (didDismiss)="closeModal()">
+<ion-modal [isOpen]="showModal" (didDismiss)="closeModal()">
   <ng-template>
     <ion-header>
       <ion-toolbar>
@@ -105,37 +109,38 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      
+
       <ion-item>
-        
+
         <div class="flex flex-col width-full margin-top-5">
-          <ion-label >Nombre</ion-label>
-          <ion-input  autocapitalize="sentences" [(ngModel)]="nombreItem" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal" id="event-name" placeholder="Ej: Cena de fin de año" value=""></ion-input>
-          
+          <ion-label>Nombre</ion-label>
+          <ion-input autocapitalize="sentences" [(ngModel)]="nombreItem"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal"
+            id="event-name" placeholder="Ej: Cena de fin de año" value=""></ion-input>
+
         </div>
-        
+
       </ion-item>
       <ion-item>
 
         <div class="flex flex-col width-full margin-top-5">
           <ion-label>Valor</ion-label>
 
-          <ion-input [(ngModel)]="valorItem" type="number" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal" id="event-value" placeholder="Ej: 10000" value=""></ion-input>
+          <ion-input [(ngModel)]="valorItem" type="number"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal"
+            id="event-value" placeholder="Ej: 10000" value=""></ion-input>
 
         </div>
 
       </ion-item>
       <ion-footer>
-        
+
         <div class="flex flex-col width-full margin-top-5">
-        <ion-button expand="block" (click)="agregarItem()" [disabled]="!nombreItem || !valorItem">Guardar</ion-button>
-        
-        <ion-button expand="block" color="medium" (click)="closeModal()">Cancelar</ion-button>
+          <ion-button expand="block" (click)="agregarItem()" [disabled]="!nombreItem || !valorItem">Guardar</ion-button>
+
+          <ion-button expand="block" color="medium" (click)="closeModal()">Cancelar</ion-button>
         </div>
       </ion-footer>
     </ion-content>
   </ng-template>
 </ion-modal>
-
-
-
