@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
+﻿import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForOf, CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
@@ -8,8 +8,18 @@ import { IonText } from '@ionic/angular/standalone';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { DataService, Evento, Items } from '../services/data.service';
 import { BoletaParseResult } from '../../utils/boleta-parser';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Camera,  CameraResultType, CameraSource } from '@capacitor/camera';
 import { environment } from '../../environments/environment';
+import { ActionSheetController } from '@ionic/angular/standalone';
+
+import { AzureOpenAI } from 'openai';
+
+// Read Azure/OpenAI config from environment
+const azureEndpoint = environment.azure?.endpoint ?? '';
+const azureApiKey = environment.azure?.apiKey ?? '';
+const azureModel = environment.azure?.model ?? '';
+const azureDeployment = environment.azure?.deployment ?? '';
+const azureApiVersion = environment.azure?.apiVersion ?? '2024-04-01-preview';
 
 @Component({
   selector: 'app-items',
@@ -22,20 +32,51 @@ import { environment } from '../../environments/environment';
     IonText, IonSpinner]
 })
 export class ItemsPage implements OnInit {
-  // Dev-only keyboard simulator
 
   @ViewChild(IonContent) content?: IonContent;
-  private keyboardListenerShow: any = null;
-  private keyboardListenerHide: any = null;
-  private focusedElement: HTMLElement | null = null;
-  private windowKeyboardShowHandler: any = null;
-  private windowKeyboardHideHandler: any = null;
   public nombreItem: string | null = null;
   public valorItem: number | null = null;
   showModal: boolean = false;
+  openModal: boolean = false;
   public indexItemEdit: number | null = null;
-  constructor(private camera: Camera) { }
-  async abrirCamaraOGaleria() {
+  image: string | undefined = '';
+  //constructor(private camera: Camera) { }
+  recognizedText: string = '';
+  private actionSheet = inject(ActionSheetController);
+  
+
+  
+
+    /**
+     * Abre la cámara o la galería según la elección.
+     * choice: 'camera' | 'gallery' — si es undefined se usa CAMERA por defecto
+     */
+    async abrirCamaraOGaleria(choice?: number) {
+      try {
+        // Usar Capacitor Camera si est├í disponible
+        // Si choice no est├í definido, usamos CameraSource.Prompt para que
+        // el sistema muestre la opci├│n nativa (C├ímara / Galer├¡a)
+        const source = choice === 1 ? CameraSource.Camera : (choice === 2 ? CameraSource.Photos : CameraSource.Prompt);
+        const photo = await Camera.getPhoto({ quality: 80, resultType: CameraResultType.DataUrl, source });
+        if (photo && photo.dataUrl) {
+          const base64 = photo.dataUrl.split(',')[1];
+          await this.procesarImagenBase64(base64);
+          return;
+        }
+      } catch (err) {
+        // si falla, caeremos a fallback web
+        console.warn('Camera error or not available, fallback to file input', err);
+      }
+
+      // Fallback web: disparar input file
+      const input = document.getElementById('ocrInput') as HTMLInputElement;
+      if (input) input.click();
+      else this.ocrError = 'No se encontr├│ el input para subir imagen.';
+    }
+    
+
+
+    /*
     if ((window as any).cordova && this.camera) {
       // Cordova disponible
       const options: CameraOptions = {
@@ -48,7 +89,6 @@ export class ItemsPage implements OnInit {
       try {
         const imageData = await this.camera.getPicture(options);
         const base64Image = 'data:image/jpeg;base64,' + imageData;
-        this.procesarImagenBase64(base64Image);
       } catch (err) {
         this.ocrError = 'No se pudo obtener la imagen (Cordova).';
       }
@@ -56,16 +96,11 @@ export class ItemsPage implements OnInit {
       // Web
       const input = document.getElementById('ocrInput') as HTMLInputElement;
       if (input) input.click();
-      else this.ocrError = 'No se encontró el input para subir imagen.';
-    }
-  }
+      else this.ocrError = 'No se encontr├│ el input para subir imagen.';
+    }*/
 
 
-  procesarImagenBase64(base64Image: string) {
-    // Aquí puedes adaptar tu flujo para procesar la imagen base64 con OCR
-    // Por ejemplo, enviar a Tesseract.js o Gemini
-    // this.callGeminiWithImage(base64Image, 'Extrae los items de la boleta');
-  }
+
   public boletaParseResult: BoletaParseResult | null = null;
   public evento!: Evento;
   public items: Items[] = [];
@@ -152,26 +187,201 @@ export class ItemsPage implements OnInit {
     
   }
 
-  async procesarImagen(event: any) {
-    this.ocrCargando = true;
-    this.ocrError = '';
-    try {
-      const file = event.target.files[0];
-      if (!file) return;
+  
+    /**
+     * Procesa la imagen recibida desde el input (navegador)
+     * Si no se pasa `event`, decide seg├║n entorno:
+     * - En navegador: dispara el input `#ocrInput`
+     * - En dispositivo m├│vil (Cordova): solicita al usuario si desea C├ímara o Galer├¡a y abre la correspondiente
+     */
+    async procesarImagen(event?: any) {
+      this.ocrError = '';
 
-      var reader = new FileReader();
+      // Si se recibi├│ el event del input file, procesarlo
+      if (event && event.target && event.target.files) {
+        this.ocrCargando = true;
+        try {
+          const file = event.target.files[0];
+          if (!file) {
+            this.ocrCargando = false;
+            return;
+          }
 
-      reader.onload = this._handleReaderLoaded.bind(this);
+          const reader = new FileReader();
+          reader.onload = (readerEvt: any) => {
+            const binaryString = readerEvt.target.result;
+            const base64 = btoa(binaryString);
+            this.procesarImagenBase64(base64);
+          };
+          reader.readAsBinaryString(file);
+        }
+        catch (err: any) {
+          console.error(err);
+          this.ocrError = 'Error procesando la imagen.';
+          this.ocrCargando = false;
+        }
+        return;
+      }
 
-      reader.readAsBinaryString(file);
-
+      // Si no hay event: decidir seg├║n entorno
+      const isCordova = !!((window as any).cordova);
+      if (isCordova) {
+        // Mostrar Action Sheet nativo con iconos (C├ímara / Galer├¡a)
+        try {
+          const sheet = await this.actionSheet.create({
+            header: 'Selecciona fuente',
+            buttons: [
+              {
+                text: 'C├ímara',
+                icon: 'camera',
+                handler: async () => {
+                  await this.abrirCamaraOGaleria(1);
+                }
+              },
+              {
+                text: 'Galer├¡a',
+                icon: 'images',
+                  handler: async () => {
+                    await this.abrirCamaraOGaleria(2);
+                }
+              },
+              {
+                text: 'Cancelar',
+                icon: 'close',
+                role: 'cancel'
+              }
+            ]
+          });
+          await sheet.present();
+        } catch (err) {
+          console.error(err);
+          this.ocrError = 'No se pudo abrir la opci├│n de fuente.';
+        }
+      } else {
+        // En navegador, disparar el input file
+        const input = document.getElementById('ocrInput') as HTMLInputElement;
+        if (input) input.click();
+        else this.ocrError = 'No se encontr├│ el input para subir imagen.';
+      }
     }
-    catch (err: any) {
-      console.error(err);
-      this.ocrError = 'Error procesando la imagen.';
-    }
-  }
 
+    /** Procesa una imagen ya en base64 (sin prefijo data:), llama al LLM y normaliza respuesta */
+    async procesarImagenBase64(base64: string) {
+      this.base64textString = base64;
+      this.ocrCargando = true;
+      this.ocrError = '';
+
+      const options = { endpoint: azureEndpoint, apiKey: azureApiKey, deployment: azureDeployment, apiVersion: azureApiVersion, dangerouslyAllowBrowser: true}
+      
+          const client = new AzureOpenAI(options);
+      
+
+      const response = await client.chat.completions.create({
+          messages: [
+      
+      
+            
+            { 
+              role:"user", 
+              content:  [{
+                type: "text",
+                text : "Identifica los items de la boleta:\n\n" +
+                        "Extrae los items en formato JSON, donde cada item tiene 'name', 'cantidad' y 'price'. " +
+                        "Si no hay cantidad, asume 1. Si no puedes identificar items, responde con un array vac├¡o. " +
+                        "Identifica el total de la boleta: " +
+                        "Identifica el monto de la propina si es que existe " +
+                        "Los items que tengan cantidad mayor a 1 deben ser considerados como m├║ltiples items en la respuesta , es decir todo el monto debe ser distribuido entre los items correspondientes y quedar todos en cantidad 1" +
+                        "Revisa si el valor total coincide con la suma de los items y/o de la propina, si no cuadra deja la variable cuadratura en false, pero si calza dejalo en true " +
+                        "Ejemplo de respuesta:\n{" +
+                          "\"total\": 4500," +
+                          "\"propina\": 500," +
+                          "\"cuadratura\": true," +
+                          "\"items\": [" +
+                          "[{\"name\": \"Item1\", \"cantidad\": 2, \"price\": 3000}, {\"name\": \"Item2\", \"cantidad\": 1, \"price\": 1500}]" +
+                        "]}"},
+                       {
+                  type: "image_url",
+                  image_url: {
+                    url: `data:image/jpeg;base64,${base64}`
+                    //url: "https://media-cdn.tripadvisor.com/media/photo-s/12/a9/a1/f3/boleta-sin-la-propina.jpg"
+                  }
+                }]
+          },
+            
+            
+          ],
+          max_completion_tokens : 16384,
+            model: azureModel
+          });
+        
+        console.log(response.choices[0].message.content);
+
+        let responseJson: any;
+        try {
+          responseJson = JSON.parse(response.choices[0].message!.content!);
+        } catch (e) {
+          const match = response.choices[0].message!.content!.match(/\{.*\}/);
+          if (match) responseJson = JSON.parse(match[0]);
+          else throw new Error('Formato de respuesta inv├ílido');
+        }
+
+        if (!responseJson.items || !Array.isArray(responseJson.items)) {
+          throw new Error('La respuesta no contiene un array de items v├ílido');
+        }
+        const items = responseJson.items.map((item: any) => ({
+          name: item.name || '',
+          price: Number(item.price) || 0,
+          cantidad: item.cantidad ? Number(item.cantidad) : 1,
+          participant: item.participant || []
+        }));
+        if (this.evento) {
+          this.evento.items = [...items];
+          this.data.saveEvents();
+          this.ocrCargando = false;
+          this.ngOnInit();
+        }
+        
+      
+      /*
+      const prompt = "Identifica los items de la boleta:\n\n" +
+        "Extrae los items en formato JSON, donde cada item tiene 'name', 'cantidad' y 'price'. " +
+        "Si no hay cantidad, asume 1. Si no puedes identificar items, responde con un array vac├¡o. " +
+        "Identifica el total de la boleta: " +
+        "Identifica el monto de la propina si es que existe " +
+        "Los items que tengan cantidad mayor a 1 deben ser considerados como m├║ltiples items en la respuesta , es decir todo el monto debe ser distribuido entre los items correspondientes y quedar todos en cantidad 1" +
+        "Revisa si el valor total coincide con la suma de los items y/o de la propina, si no cuadra deja la variable cuadratura en false, pero si calza dejalo en true ";
+      try {
+        const responseText = await this.callGeminiWithImage(base64, prompt);
+        let text = responseText.replace(/(\r\n|\n|\r)/gm, "").replace('```json', '').replace('```', '').trim();
+        let responseJson: any;
+        try {
+          responseJson = JSON.parse(text);
+        } catch (e) {
+          const match = text.match(/\{.*\}/);
+          if (match) responseJson = JSON.parse(match[0]);
+          else throw new Error('Formato de respuesta inv├ílido');
+        }
+        if (!responseJson.items || !Array.isArray(responseJson.items)) {
+          throw new Error('La respuesta no contiene un array de items v├ílido');
+        }
+        const items = responseJson.items.map((item: any) => ({
+          name: item.name || '',
+          price: Number(item.price) || 0,
+          cantidad: item.cantidad ? Number(item.cantidad) : 1,
+          participant: item.participant || []
+        }));
+        if (this.evento) {
+          this.evento.items = [...items];
+          this.data.saveEvents();
+          this.ocrCargando = false;
+          this.ngOnInit();
+        }
+      } catch (err: any) {
+        this.ocrError = 'Error procesando la respuesta de Gemini: ' + (err.message || err);
+        this.ocrCargando = false;
+      }*/
+    }
+  /*
   _handleReaderLoaded(readerEvt: any) {
     var binaryString = readerEvt.target.result;
     this.base64textString = btoa(binaryString);
@@ -180,10 +390,10 @@ export class ItemsPage implements OnInit {
     this.callGeminiWithImage(this.base64textString,
       "Identifica los items de la boleta:\n\n" +
       "Extrae los items en formato JSON, donde cada item tiene 'name', 'cantidad' y 'price'. " +
-      "Si no hay cantidad, asume 1. Si no puedes identificar items, responde con un array vacío. " +
+      "Si no hay cantidad, asume 1. Si no puedes identificar items, responde con un array vac├¡o. " +
       "Identifica el total de la boleta: " +
       "Identifica el monto de la propina si es que existe " +
-      "Los items que tengan cantidad mayor a 1 deben ser considerados como múltiples items en la respuesta , es decir todo el monto debe ser distribuido entre los items correspondientes y quedar todos en cantidad 1" +
+      "Los items que tengan cantidad mayor a 1 deben ser considerados como m├║ltiples items en la respuesta , es decir todo el monto debe ser distribuido entre los items correspondientes y quedar todos en cantidad 1" +
       "Revisa si el valor total coincide con la suma de los items y/o de la propina, si no cuadra deja la variable cuadratura en false, pero si calza dejalo en true " +
       "Ejemplo de respuesta:\n{" +
       "\"total\": 4500," +
@@ -198,7 +408,7 @@ export class ItemsPage implements OnInit {
           .replace('```json', '')
           .replace('```', '')
           .trim();
-        // Asegurar que la respuesta sea un objeto JSON válido
+        // Asegurar que la respuesta sea un objeto JSON v├ílido
         let responseJson;
         try {
           responseJson = JSON.parse(responseText);
@@ -208,14 +418,14 @@ export class ItemsPage implements OnInit {
           if (match) {
             responseJson = JSON.parse(match[0]);
           } else {
-            throw new Error('Formato de respuesta inválido');
+            throw new Error('Formato de respuesta inv├ílido');
           }
         }
         // Validar que items sea un array
         if (!responseJson.items || !Array.isArray(responseJson.items)) {
-          throw new Error('La respuesta no contiene un array de items válido');
+          throw new Error('La respuesta no contiene un array de items v├ílido');
         }
-        // Normalizar items para visualización
+        // Normalizar items para visualizaci├│n
         const items = responseJson.items.map((item: any) => ({
           name: item.name || '',
           price: Number(item.price) || 0,
@@ -237,7 +447,7 @@ export class ItemsPage implements OnInit {
       this.ocrCargando = false;
     });
 
-  }
+  }*/
 
 
   openAddModal() {
@@ -287,7 +497,7 @@ export class ItemsPage implements OnInit {
     });
 
     const json = await response.json();
-    // La respuesta tiene “candidates” u otro formato, dependerá del modelo usado
+    // La respuesta tiene ÔÇ£candidatesÔÇØ u otro formato, depender├í del modelo usado
     // Por simplicidad, supongamos que la respuesta tiene algo como json.candidates[0].text
     if (json.candidates && json.candidates.length > 0) {
       //console.log('Respuesta de Gemini:', json.candidates[0].content.parts[0].text);

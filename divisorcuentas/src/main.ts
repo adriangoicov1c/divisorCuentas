@@ -6,7 +6,6 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { Storage } from '@ionic/storage-angular';
-import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 
 
 bootstrapApplication(AppComponent, {
@@ -17,7 +16,6 @@ bootstrapApplication(AppComponent, {
     {
       provide: Storage,
       useFactory: () => new Storage(),
-    },
-    Camera
+    }
   ],
 });
