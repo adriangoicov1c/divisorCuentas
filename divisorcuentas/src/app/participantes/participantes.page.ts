@@ -46,6 +46,17 @@ export class ParticipantesPage implements OnInit {
       this.participantes = this.evento.participants;
     } else {
       this.participantes = [];
+      // Si no encuentra el evento, intentar recargar los eventos
+      console.warn(`Evento con ID ${id} no encontrado. Intentando recargar...`);
+      this.data.loadEvents().then(() => {
+        const eventoRetry = this.data.getEventById(id);
+        if (eventoRetry) {
+          this.evento = eventoRetry;
+          this.participantes = this.evento.participants;
+        } else {
+          console.error(`Evento con ID ${id} no encontrado después de recargar`);
+        }
+      });
     }
   }
 

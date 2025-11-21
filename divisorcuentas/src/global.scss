@@ -52,3 +52,7 @@ ion-content {
 body.keyboard-open {
   height: calc(100% - var(--keyboard-height, 0px));
 }
+
+ion-content {
+  --padding-top: env(safe-area-inset-top);
+}

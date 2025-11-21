@@ -14,5 +14,10 @@
 			"SplashScreen": "screen",
 			"SplashScreenDelay": "3000"
 		}
+	},
+	"plugins": {
+		"StatusBar": {
+			"overlaysWebView": false
+		}
 	}
 }

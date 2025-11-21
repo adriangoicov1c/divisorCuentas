@@ -1,4 +1,4 @@
-﻿import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
+﻿import { Component, inject, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForOf, CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
@@ -43,6 +43,7 @@ export class ItemsPage implements OnInit {
   //constructor(private camera: Camera) { }
   recognizedText: string = '';
   private actionSheet = inject(ActionSheetController);
+  private cdr = inject(ChangeDetectorRef);
   
 
   
@@ -115,12 +116,24 @@ export class ItemsPage implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('eventoId'));
+    // Esperar a que los eventos estén cargados
     const evento = this.data.getEventById(id);
     if (evento) {
       this.evento = evento;
       this.items = this.evento.items ?? [];
+    } else {
+      // Si no encuentra el evento, intentar recargar los eventos
+      console.warn(`Evento con ID ${id} no encontrado. Intentando recargar...`);
+      this.data.loadEvents().then(() => {
+        const eventoRetry = this.data.getEventById(id);
+        if (eventoRetry) {
+          this.evento = eventoRetry;
+          this.items = this.evento.items ?? [];
+        } else {
+          console.error(`Evento con ID ${id} no encontrado después de recargar`);
+        }
+      });
     }
-
   }
 
 
@@ -452,6 +465,7 @@ export class ItemsPage implements OnInit {
 
   openAddModal() {
     this.showModal = true;
+    this.cdr.detectChanges();
   }
 
 
@@ -460,6 +474,8 @@ export class ItemsPage implements OnInit {
     this.showModal = false;
     this.nuevoNombre = '';
     this.valorItem = null;
+    this.indexItemEdit = null;
+    this.cdr.detectChanges();
   }
 
 
