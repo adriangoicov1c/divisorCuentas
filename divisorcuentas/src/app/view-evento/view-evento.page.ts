@@ -6,7 +6,7 @@ import { Component, inject, OnInit, ViewChildren, QueryList, ElementRef, AfterVi
 import { JsonPipe, NgIf, NgFor,  CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
 import { ActivatedRoute } from '@angular/router';
-import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel } from '@ionic/angular/standalone';
+import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel, IonButton } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { personCircle, trashOutline } from 'ionicons/icons';
@@ -17,10 +17,10 @@ import { DataService, Evento, Participants } from '../services/data.service';
   templateUrl: './view-evento.page.html',
   styleUrls: ['./view-evento.page.scss'],
   standalone: true,
-  imports: [IonAccordionGroup, IonItem, IonAccordion, IonTitle, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent,  CommonModule, NgIf, NgFor,  FormsModule, RouterModule, ClpCurrencyPipe],
+  imports: [IonButton, IonAccordionGroup, IonItem, IonAccordion, IonTitle, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent,  CommonModule, NgIf, NgFor,  FormsModule, RouterModule, ClpCurrencyPipe],
 })
-export class ViewEventoPage implements OnInit, AfterViewInit {
-  @ViewChildren('selectRef') selectRefs!: QueryList<ElementRef<HTMLSelectElement>>;
+export class ViewEventoPage implements OnInit {
+  
   public selectRefsArr: ElementRef<HTMLSelectElement>[] = [];
   public evento!: Evento;
   public cuadraturaValida: boolean = true;
@@ -28,9 +28,7 @@ export class ViewEventoPage implements OnInit, AfterViewInit {
   private activatedRoute = inject(ActivatedRoute);
   private platform = inject(Platform);
   private router = inject(Router);
-  goToParticipantes() {
-    this.router.navigate(['/participantes']);
-  }
+
   public incluyePropina: boolean = false;
 
   public nuevoParticipante: string = '';
@@ -40,6 +38,7 @@ export class ViewEventoPage implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.evento = this.data.getEvents().find(event => event.id === parseInt(id, 10)) as Evento;
     this.incluyePropina = this.evento.incluyePropina;
@@ -52,9 +51,26 @@ export class ViewEventoPage implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    this.selectRefsArr = this.selectRefs ? this.selectRefs.toArray() : [];
+  async openItems(id: number) {
+    console.log('openItems called, id=', id);
+    try {
+      const result = await this.router.navigate(['/items', id]);
+      console.log('navigate result:', result);
+      if (!result) {
+        console.warn('router.navigate returned false, intentando navigateByUrl fallback');
+        await this.router.navigateByUrl(`/items/${id}`);
+      }
+    } catch (err) {
+      console.error('Error en navigation a /items:', err);
+      try {
+        await this.router.navigateByUrl(`/items/${id}`);
+      } catch (err2) {
+        console.error('Fallback navigateByUrl falló:', err2);
+      }
+    }
   }
+
+
 
   calcularMontoApagar() {
     if (!this.evento || !this.evento.items) return;
@@ -102,6 +118,13 @@ export class ViewEventoPage implements OnInit, AfterViewInit {
       total = total * 1.10;
     return total;
   }
+
+  testClick() {
+  console.log('CLICK FUNCIONA');
+    
+    this.router.navigate([`/items/${this.evento?.id}`]);
+
+}
 
   getTotalPorParticipante(participante: Participants): number {
     if (!this.evento || !this.evento.items) return 0;
