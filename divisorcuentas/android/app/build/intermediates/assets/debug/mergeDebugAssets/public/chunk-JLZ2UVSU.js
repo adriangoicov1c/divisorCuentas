@@ -1,0 +1,1 @@
+import{j as e}from"./chunk-BXOCLV3Y.js";var s=(()=>{let t=class t{transform(i){if(i==null)return"";let r=typeof i=="string"?parseFloat(i):i;return isNaN(r)?"":"$"+r.toLocaleString("es-CL",{minimumFractionDigits:0,maximumFractionDigits:0})}};t.\u0275fac=function(r){return new(r||t)},t.\u0275pipe=e({name:"clpCurrency",type:t,pure:!0});let n=t;return n})();export{s as a};

@@ -86,7 +86,7 @@
 </ion-content>
 
 <ion-fab slot="fixed" style="bottom: 100px; right: 100px; position: absolute;">
-  <ion-fab-button (click)="abrirCamaraOGaleria()">
+  <ion-fab-button (click)="openModal = true">
         <ion-icon name="camera-sharp"></ion-icon>
 
       
@@ -99,6 +99,33 @@
     <ion-icon name="add-outline"></ion-icon>
   </ion-fab-button>
 </ion-fab>
+
+<ion-modal
+  [isOpen]="openModal"
+  (didDismiss)="openModal = false"
+  [initialBreakpoint]="0.3"
+  [breakpoints]="[0, 0.3]"
+  handle="true"
+  class="bottom-sheet-modal"
+>
+  <ng-template>
+    <ion-content class="bottom-sheet-content">
+      <div class="photo-container">
+
+        <div class="photo-option-card" (click)="abrirCamaraOGaleria(1)">
+          <ion-icon name="camera-outline"></ion-icon>
+          <span>Cámara</span>
+        </div>
+
+        <div class="photo-option-card" (click)="abrirCamaraOGaleria(2)">
+          <ion-icon name="image-outline"></ion-icon>
+          <span>Galería</span>
+        </div>
+
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 
 
 <ion-modal [isOpen]="showModal" (didDismiss)="closeModal()">

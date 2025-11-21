@@ -51,7 +51,7 @@ export class ItemsPage implements OnInit {
      * Abre la cámara o la galería según la elección.
      * choice: 'camera' | 'gallery' — si es undefined se usa CAMERA por defecto
      */
-    async abrirCamaraOGaleria(choice?: number) {
+    async abrirCamaraOGaleria(choice:number) {
       try {
         // Usar Capacitor Camera si est├í disponible
         // Si choice no est├í definido, usamos CameraSource.Prompt para que
