@@ -1,4 +1,4 @@
-io.ionic.starter
+com.adriangoicovic.divisorcuentas
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -3685,6 +3685,8 @@ layout select_dialog_singlechoice_material
 layout splash_screen_view
 layout support_simple_spinner_dropdown_item
 mipmap ic_launcher
+mipmap ic_launcher2
+mipmap ic_launcher_background
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description

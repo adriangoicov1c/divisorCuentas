@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:32:9-40:20
+INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:27:9-33:20
 	android:grantUriPermissions
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:36:13-47
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:31:13-47
 	android:authorities
 		INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:34:13-64
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:29:13-64
 	android:exported
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:35:13-37
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:30:13-37
 	android:name
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:33:13-62
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:28:13-62
 manifest
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-46:12
-INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-46:12
-INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-46:12
-INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-46:12
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:1-39:12
 MERGED from [:capacitor-app] C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\node_modules\@capacitor\app\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-7:12
 MERGED from [:capacitor-camera] C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\node_modules\@capacitor\camera\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-13:12
 MERGED from [:capacitor-haptics] C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-9:12
@@ -75,8 +75,8 @@ MERGED from [org.apache.cordova:framework:10.1.1] C:\Users\adria\.gradle\caches\
 	xmlns:android
 		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:4:5-41:19
-INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:4:5-41:19
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:3:5-34:19
+INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:3:5-34:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\a63b4def3f126a1584608cf719a55f7b\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\a63b4def3f126a1584608cf719a55f7b\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\adria\.gradle\caches\8.11.1\transforms\5ca5320cafc5c15decacd9f0c2e7b059\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -98,57 +98,57 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ad
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:9:9-35
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:8:9-35
 	android:label
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:7:9-41
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:6:9-41
 	android:roundIcon
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:8:9-54
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:7:9-54
 	android:icon
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:6:9-43
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:5:9-43
 	android:allowBackup
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:5:9-35
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:4:9-35
 	android:theme
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:10:9-40
-activity#io.ionic.starter.MainActivity
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:12:9-30:20
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:9:9-40
+activity#com.adriangoicovic.divisorcuentas.MainActivity
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:10:9-25:20
 	android:label
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:15:13-56
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:13:13-56
 	android:launchMode
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:17:13-44
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:15:13-44
 	android:exported
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:18:13-36
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:16:13-36
 	android:configChanges
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:13:13-140
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:11:13-140
 	android:theme
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:16:13-62
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:14:13-62
 	android:name
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:14:13-41
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:12:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:20:13-23:29
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:17:13-20:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:21:17-69
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:18:17-69
 	android:name
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:21:25-66
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:18:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:22:17-77
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:19:17-77
 	android:name
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:22:27-74
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:19:27-74
 intent-filter#action:name:android.media.action.IMAGE_CAPTURE
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:25:13-27:29
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:22:13-24:29
 action#android.media.action.IMAGE_CAPTURE
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:26:17-77
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:26:25-74
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:23:25-74
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:45:5-67
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:38:5-67
 	android:name
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:45:22-64
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:38:22-64
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:37:13-39:64
+ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:32:13-112
 	android:resource
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:39:17-51
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:32:75-109
 	android:name
-		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:38:17-67
+		ADDED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml:32:24-74
 uses-sdk
 INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\adria\OneDrive\Documents\Proyectos\DivisorCuentas\divisorcuentas\android\app\src\main\AndroidManifest.xml
@@ -301,7 +301,7 @@ ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\tran
 		ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:23:9-81
-permission#io.ionic.starter.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.adriangoicovic.divisorcuentas.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:24:9-44
@@ -311,7 +311,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:26:22-94
-uses-permission#io.ionic.starter.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.adriangoicovic.divisorcuentas.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.15.0] C:\Users\adria\.gradle\caches\8.11.1\transforms\5f51ed623ec66baebfa6a053fe8a8b2a\transformed\core-1.15.0\AndroidManifest.xml:26:22-94

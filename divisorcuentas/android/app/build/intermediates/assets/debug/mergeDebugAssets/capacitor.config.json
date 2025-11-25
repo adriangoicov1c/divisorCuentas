@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "list",
+	"appId": "com.adriangoicovic.divisorcuentas",
+	"appName": "Divisor cuentas",
 	"webDir": "www",
 	"cordova": {
 		"preferences": {
