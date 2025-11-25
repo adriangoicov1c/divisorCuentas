@@ -41,7 +41,7 @@ import { AzureOpenAI } from 'openai';
     IonFab, IonFabButton, IonFooter, IonText, IonSpinner,
     
     // 🚨 FALTANTES
-    IonList, IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonNote]
+    ]
 })
 export class ItemsPage implements OnInit {
 
