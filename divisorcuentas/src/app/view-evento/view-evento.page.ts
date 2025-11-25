@@ -6,10 +6,10 @@ import { Component, inject, OnInit, ViewChildren, QueryList, ElementRef, AfterVi
 import { JsonPipe, NgIf, NgFor,  CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
 import { ActivatedRoute } from '@angular/router';
-import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel, IonButton, IonSelectOption, IonModal, IonList, IonCheckbox, IonFooter, IonInput } from '@ionic/angular/standalone';
+import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel, IonButton, IonSelectOption, IonModal, IonList, IonCheckbox, IonFooter, IonInput, IonIcon } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { personCircle, trashOutline } from 'ionicons/icons';
+import { personCircle, trashOutline, checkmarkCircle } from 'ionicons/icons';
 import { DataService, Evento, Items, Participants } from '../services/data.service';
 
 
@@ -18,7 +18,7 @@ import { DataService, Evento, Items, Participants } from '../services/data.servi
   templateUrl: './view-evento.page.html',
   styleUrls: ['./view-evento.page.scss'],
   standalone: true,
-  imports: [IonInput, IonCheckbox, 
+  imports: [IonIcon,  IonCheckbox, 
             IonList, 
             IonModal, 
             IonAccordionGroup, 
@@ -36,7 +36,7 @@ import { DataService, Evento, Items, Participants } from '../services/data.servi
             FormsModule, 
             RouterModule, 
             ClpCurrencyPipe, 
-            IonSelectOption, 
+             
             IonLabel, 
             IonButton, 
             IonFooter],
@@ -61,16 +61,19 @@ export class ViewEventoPage implements OnInit {
 
   public nuevoParticipante: string = '';
   public modal: boolean = false;
+  checked: boolean = false;
+
+  toggleCheck(index: number) {
+    this.evento.participants[index].pagado = !this.evento.participants[index].pagado;
+    this.data.saveEvents();
+  }
+
 
   constructor(private ngZone: NgZone ) {
-    addIcons({personCircle,trashOutline});
+    addIcons({checkmarkCircle,personCircle,trashOutline});
   }
 
   ngOnInit() {
-
-    this.participantes = ['Adrian', 'Belen', 'Carlos', 'Diana', 'Eva', 'Fernando', 'Gabriela'];
-
-    
 
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.evento = this.data.getEvents().find(event => event.id === parseInt(id, 10)) as Evento;
@@ -92,11 +95,6 @@ export class ViewEventoPage implements OnInit {
     
   }
 
-  ngAfterViewInit() {
-
-    
-      
-    }
 
 
   calcularMontoApagar() {

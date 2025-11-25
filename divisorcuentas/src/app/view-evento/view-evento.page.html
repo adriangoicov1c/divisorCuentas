@@ -170,15 +170,23 @@
       <ion-item slot="header">
         <strong>Detalle por participante:</strong>
       </ion-item>
-      <section class="mt-8">
+      <section class="mt-8" >
 
         <div class="space-y-4">
-          <div *ngFor="let participante of evento.participants"
+          <div *ngFor="let participante of evento.participants; let i = index"
+          (click)="toggleCheck(i)"
             class="p-4 rounded-lg dark:bg-background-dark/50 space-y-3" style="background-color: #06192D;">
             <div class="flex items-center gap-4">
               <div class="flex-grow">
                 <p>{{ participante.name }}</p>
               </div>
+              <ion-icon
+                name="checkmark-circle"
+                color="success"
+                class="check-anim"
+                [class.show]="participante.pagado"
+                slot="end">
+              </ion-icon>
               <div>
                 <td class=" text-sm   shrink-0" style="float: inline-end;">{{ participante.montoApagar | clpCurrency }}
                 </td>
