@@ -2,17 +2,24 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const _env = typeof import.meta !== 'undefined' ? (import.meta as any).env : (typeof process !== 'undefined' ? (process as any).env : {});
+// Protegemos el acceso a import.meta.env: en algunos WebViews import.meta existe
+// pero import.meta.env puede ser undefined. Usar `?? {}` evita que _env sea undefined.
+const _env =
+  typeof import.meta !== 'undefined'
+    ? ((import.meta as any).env ?? {})
+    : typeof process !== 'undefined'
+    ? (process as any).env
+    : {};
 
 export const environment = {
   production: false,
-  geminiApiKey: (_env.VITE_GEMINI_API_KEY ?? '') as string,
+  
   azure: {
-    endpoint: (_env.VITE_AZURE_OPENAI_ENDPOINT ?? '') as string,
-    apiKey: (_env.VITE_AZURE_OPENAI_API_KEY ?? '') as string,
-    deployment: (_env.VITE_AZURE_OPENAI_DEPLOYMENT ?? '') as string,
-    apiVersion: (_env.VITE_AZURE_OPENAI_API_VERSION ?? '2024-04-01-preview') as string,
-    model: (_env.VITE_AZURE_OPENAI_MODEL ?? '') as string,
+    endpoint: "https://adria-mi7zki2g-eastus2.cognitiveservices.azure.com/",
+    apiKey: "6OZ1lONsrdQbIhTW2aSvz6iSXuoLlOvun3Pe34jeJZMF6hh6mIzQJQQJ99BKACHYHv6XJ3w3AAAAACOGFrqS",
+    deployment: "gpt-5.1-chat",
+    apiVersion: "2024-04-01-preview",
+    model: "gpt-5.1-chat",
   }
 };
 

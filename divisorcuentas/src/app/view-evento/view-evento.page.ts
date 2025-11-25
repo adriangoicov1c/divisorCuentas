@@ -1,25 +1,50 @@
 import { Router } from '@angular/router';
-
+import { NgZone, ViewChild } from '@angular/core'; // 👈 Importa NgZone
 import { FormsModule } from '@angular/forms';
 
 import { Component, inject, OnInit, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { JsonPipe, NgIf, NgFor,  CommonModule } from '@angular/common';
 import { ClpCurrencyPipe } from '../pipes/clp-currency.pipe';
 import { ActivatedRoute } from '@angular/router';
-import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel, IonButton } from '@ionic/angular/standalone';
+import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel, IonButton, IonSelectOption, IonModal, IonList, IonCheckbox, IonFooter, IonInput } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { personCircle, trashOutline } from 'ionicons/icons';
-import { DataService, Evento, Participants } from '../services/data.service';
+import { DataService, Evento, Items, Participants } from '../services/data.service';
+
 
 @Component({
   selector: 'app-view-evento',
   templateUrl: './view-evento.page.html',
   styleUrls: ['./view-evento.page.scss'],
   standalone: true,
-  imports: [IonButton, IonAccordionGroup, IonItem, IonAccordion, IonTitle, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent,  CommonModule, NgIf, NgFor,  FormsModule, RouterModule, ClpCurrencyPipe],
+  imports: [IonInput, IonCheckbox, 
+            IonList, 
+            IonModal, 
+            IonAccordionGroup, 
+            IonItem, 
+            IonAccordion, 
+            IonTitle, 
+            IonHeader, 
+            IonToolbar, 
+            IonButtons, 
+            IonBackButton, 
+            IonContent, 
+            CommonModule, 
+            NgIf, 
+            NgFor, 
+            FormsModule, 
+            RouterModule, 
+            ClpCurrencyPipe, 
+            IonSelectOption, 
+            IonLabel, 
+            IonButton, 
+            IonFooter],
 })
 export class ViewEventoPage implements OnInit {
+  
+  @ViewChildren('selectRef') selectRefs!: QueryList<ElementRef<HTMLSelectElement>>;
+
   
   public selectRefsArr: ElementRef<HTMLSelectElement>[] = [];
   public evento!: Evento;
@@ -28,16 +53,24 @@ export class ViewEventoPage implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private platform = inject(Platform);
   private router = inject(Router);
+  public participantes: string[] = [];
+
+  public tempItemSelected: Items =  null as any;
 
   public incluyePropina: boolean = false;
 
   public nuevoParticipante: string = '';
+  public modal: boolean = false;
 
-  constructor() {
+  constructor(private ngZone: NgZone ) {
     addIcons({personCircle,trashOutline});
   }
 
   ngOnInit() {
+
+    this.participantes = ['Adrian', 'Belen', 'Carlos', 'Diana', 'Eva', 'Fernando', 'Gabriela'];
+
+    
 
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.evento = this.data.getEvents().find(event => event.id === parseInt(id, 10)) as Evento;
@@ -49,36 +82,30 @@ export class ViewEventoPage implements OnInit {
         if (!Array.isArray(item.participant)) item.participant = [];
       });
     }
-  }
 
-  async openItems(id: number) {
-    console.log('openItems called, id=', id);
-    try {
-      const result = await this.router.navigate(['/items', id]);
-      console.log('navigate result:', result);
-      if (!result) {
-        console.warn('router.navigate returned false, intentando navigateByUrl fallback');
-        await this.router.navigateByUrl(`/items/${id}`);
-      }
-    } catch (err) {
-      console.error('Error en navigation a /items:', err);
-      try {
-        await this.router.navigateByUrl(`/items/${id}`);
-      } catch (err2) {
-        console.error('Fallback navigateByUrl falló:', err2);
-      }
+    if (this.evento.items) {
+      this.evento.items.forEach(item => {
+        if (!Array.isArray(item.participant)) item.participant = [];
+      });
     }
+    // Helper para acceder al selectRefs como array en el template
+    
   }
 
+  ngAfterViewInit() {
+
+    
+      
+    }
 
 
   calcularMontoApagar() {
-    if (!this.evento || !this.evento.items) return;
+    
     this.evento.incluyePropina = this.incluyePropina;
+    //alert("Calculando monto a pagar...");
     // Reset montos
     this.evento.participants.forEach(p => p.montoApagar = 0);
-    // Dividir monto de cada item entre sus participantes
-    this.evento.items.forEach(item => {
+    this.evento.items!.forEach(item => {
       if (Array.isArray(item.participant) && item.participant.length > 0) {
         const montoPorPersona = item.price / item.participant.length;
         item.participant.forEach(nombre => {
@@ -119,12 +146,9 @@ export class ViewEventoPage implements OnInit {
     return total;
   }
 
-  testClick() {
-  console.log('CLICK FUNCIONA');
-    
-    this.router.navigate([`/items/${this.evento?.id}`]);
 
-}
+
+
 
   getTotalPorParticipante(participante: Participants): number {
     if (!this.evento || !this.evento.items) return 0;
@@ -148,98 +172,59 @@ export class ViewEventoPage implements OnInit {
     return this.platform.is('ios') ? 'Eventos' : '';
   }
 
-  agregarParticipante() {
-    if (!this.nuevoParticipante || !this.nuevoParticipante.trim()) return;
-    if (!this.evento.participants) this.evento.participants = [];
-    var newParticipant ={
-      name: this.nuevoParticipante.trim(),
-      montoApagar: 0,
-      pagado: false
-    }
-    this.evento.participants.push(newParticipant);
-    this.nuevoParticipante = '';
-  }
-/*
-  calcularMontoApagar()  {
-    if (!this.evento || !this.evento.items) return;
-    this.evento.incluyePropina = this.incluyePropina;
-    // Reset montos
-    this.evento.participants.forEach(p => p.montoApagar = 0);
-    // Dividir monto de cada item entre sus participantes
-    this.evento.items.forEach(item => {
-      if (Array.isArray(item.participant) && item.participant.length > 0) {
-        const montoPorPersona = item.price / item.participant.length;
-        item.participant.forEach(nombre => {
-          const participante = this.evento.participants.find(p => p.name === nombre);
-          if (participante) participante.montoApagar += montoPorPersona;
-        });
-      }
-    });
-    // Aplicar propina si corresponde
-    if (this.incluyePropina) {
-      this.evento.participants.forEach(p => p.montoApagar *= 1.10);
-    }
-    this.data.saveEvents();
-    // Validar cuadratura
-    this.cuadraturaValida = Math.abs(this.totalAsignado() - this.total()) < 1;
-  }*/
 
 
 
-  }
-/*
+
+
+  
   asignarParticipante(index: number, participante: string) {
-    console.log("Asignar participante:", participante);
+    
     if (this.evento.items && this.evento.items[index]) {
-      this.evento.items[index].participant.push(participante);
-      this.calcularMontoApagar()
+      if (this.evento.items[index].participant.findIndex(p => p == participante) == -1){
+        this.evento.items[index].participant.push(participante);
+      }
+    
     }
+
+    this.calcularMontoApagar();
+
+      
     
   }
 
-  eliminarParticipante(index: number) {
-    if (this.evento.participants && index > -1) {
-      this.evento.participants.splice(index, 1);
-    }
+
+  toggleSelection(participant: any) {
+
+    this.tempItemSelected.participant.indexOf(participant.name) === -1 ? this.tempItemSelected.participant.push(participant.name) : this.tempItemSelected.participant.splice(this.tempItemSelected.participant.indexOf(participant.name), 1);
   }
 
-  subtotal(): number {
-    return this.evento?.items?.reduce((acc, item) => acc + item.price, 0) || 0;
-  }
-
-  propina(): number {
-    return this.subtotal() * 0.10;
-  }
-
-  total(): number {
-    var total = this.subtotal();
-    if(this.incluyePropina)
-      total = total * 1.10;
-    return total;
-  }
-
-  getTotalPorParticipante(participante: Participants): number {
+  openModal(item: Items) {
     
-    if (!this.evento || !this.evento.items) return 0;
-    
-    var valorPorParticipante: number = this.evento.items
-      .filter(item => {
-        const p = item.participant;
-        if (!p) return false;
-        return Array.isArray(p) ? p.includes(participante.name) : p === participante.name;
-      })
-      .reduce((acc, item) => acc + item.price, 0);
-
-
-    if (this.incluyePropina) 
-       valorPorParticipante *= 1.10;
-    
-    return valorPorParticipante;
+    this.tempItemSelected = item;
+    this.modal = true;
   }
 
-  totalAsignado(): number {
-    return this.evento?.participants?.reduce((acc, participante) => acc + participante.montoApagar, 0) || 0;
+  close() {
+    this.modal = false;
   }
-}*/
+
+  guardarAsignaciones() {
+    
+    
+    const idx = this.evento.items!.findIndex((element) => element.id == this.tempItemSelected.id);
+    
+    this.tempItemSelected.participant.forEach(element => {
+      this.asignarParticipante(idx, element);  
+    });
+    
+    
+    this.close();
+    this.calcularMontoApagar();
+    this.tempItemSelected = null as any;
+  }
+
+}
+
 
 

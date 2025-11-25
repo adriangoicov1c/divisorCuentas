@@ -58,20 +58,6 @@
     </div>
   </section>
 
-  <!--
-  <ion-list *ngIf="!ocrCargando" style="overflow-y: auto; padding: 1rem;">
-    <ion-item *ngFor="let item of items; let i = index">
-      <ion-label>{{ item.name }}</ion-label>
-      <ion-buttons slot="end">
-        <ion-label>{{ item.price | clpCurrency }}</ion-label>
-        <ion-button color="danger" (click)="eliminarItem(i)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
-
-  -->
 
   <input #ocrInput id="ocrInput" type="file" accept="image/*" capture="environment" (change)="procesarImagen($event)"
     style="display:none" />
@@ -102,10 +88,9 @@
 
 <ion-modal
   [isOpen]="openModal"
-  (didDismiss)="openModal = false"
   [initialBreakpoint]="0.3"
   [breakpoints]="[0, 0.3]"
-  handle="true"
+  
   class="bottom-sheet-modal"
 >
   <ng-template>
@@ -143,7 +128,7 @@
           <ion-label>Nombre</ion-label>
           <ion-input autocapitalize="sentences" [(ngModel)]="nombreItem"
             class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal"
-            id="event-name" placeholder="Ej: Cena de fin de año" value=""></ion-input>
+            id="event-name" placeholder="Ej: Papas fritas" value=""></ion-input>
 
         </div>
 

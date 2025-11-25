@@ -15,21 +15,33 @@ import { ActionSheetController } from '@ionic/angular/standalone';
 import { AzureOpenAI } from 'openai';
 
 // Read Azure/OpenAI config from environment
-const azureEndpoint = environment.azure?.endpoint ?? '';
-const azureApiKey = environment.azure?.apiKey ?? '';
-const azureModel = environment.azure?.model ?? '';
-const azureDeployment = environment.azure?.deployment ?? '';
-const azureApiVersion = environment.azure?.apiVersion ?? '2024-04-01-preview';
+  /*
+  const azureEndpoint = environment.azure?.endpoint ?? '';
+  const azureApiKey = environment.azure?.apiKey ?? '';
+  const azureModel = environment.azure?.model ?? '';
+  const azureDeployment = environment.azure?.deployment ?? '';
+  const azureApiVersion = environment.azure?.apiVersion ?? '2024-04-01-preview';
+
+
+  const options = { endpoint: azureEndpoint, apiKey: azureApiKey, deployment: azureDeployment, apiVersion: azureApiVersion, dangerouslyAllowBrowser: true}
+      
+  const client = new AzureOpenAI(options);*/
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.page.html',
   styleUrls: ['./items.page.scss'],
   standalone: true,
-  imports: [ IonModal,
-    IonHeader, IonToolbar, IonTitle, IonContent,  IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput,
-    FormsModule, NgForOf, RouterModule, CommonModule, ClpCurrencyPipe, IonFab, IonFabButton, IonFooter,
-    IonText, IonSpinner]
+  imports: [ // Dependencias generales
+    FormsModule, NgForOf, RouterModule, CommonModule, ClpCurrencyPipe,
+    
+    // Componentes de Ionic (¡Asegúrate que todos estén!)
+    IonModal, IonHeader, IonToolbar, IonTitle, IonContent, 
+    IonItem, IonLabel, IonButtons, IonButton, IonIcon, IonInput,
+    IonFab, IonFabButton, IonFooter, IonText, IonSpinner,
+    
+    // 🚨 FALTANTES
+    IonList, IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonNote]
 })
 export class ItemsPage implements OnInit {
 
@@ -40,11 +52,12 @@ export class ItemsPage implements OnInit {
   openModal: boolean = false;
   public indexItemEdit: number | null = null;
   image: string | undefined = '';
-  //constructor(private camera: Camera) { }
+  constructor() { }
   recognizedText: string = '';
   private actionSheet = inject(ActionSheetController);
   private cdr = inject(ChangeDetectorRef);
   
+
 
   
 
@@ -57,7 +70,7 @@ export class ItemsPage implements OnInit {
         // Usar Capacitor Camera si est├í disponible
         // Si choice no est├í definido, usamos CameraSource.Prompt para que
         // el sistema muestre la opci├│n nativa (C├ímara / Galer├¡a)
-        const source = choice === 1 ? CameraSource.Camera : (choice === 2 ? CameraSource.Photos : CameraSource.Prompt);
+        const source = choice === 1 ? CameraSource.Camera : CameraSource.Photos ;
         const photo = await Camera.getPhoto({ quality: 80, resultType: CameraResultType.DataUrl, source });
         if (photo && photo.dataUrl) {
           const base64 = photo.dataUrl.split(',')[1];
@@ -77,29 +90,6 @@ export class ItemsPage implements OnInit {
     
 
 
-    /*
-    if ((window as any).cordova && this.camera) {
-      // Cordova disponible
-      const options: CameraOptions = {
-        quality: 80,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
-        sourceType: this.camera.PictureSourceType.CAMERA // o PHOTOLIBRARY
-      };
-      try {
-        const imageData = await this.camera.getPicture(options);
-        const base64Image = 'data:image/jpeg;base64,' + imageData;
-      } catch (err) {
-        this.ocrError = 'No se pudo obtener la imagen (Cordova).';
-      }
-    } else {
-      // Web
-      const input = document.getElementById('ocrInput') as HTMLInputElement;
-      if (input) input.click();
-      else this.ocrError = 'No se encontr├│ el input para subir imagen.';
-    }*/
-
 
 
   public boletaParseResult: BoletaParseResult | null = null;
@@ -113,10 +103,37 @@ export class ItemsPage implements OnInit {
   private route = inject(ActivatedRoute);
   private data = inject(DataService);
 
+  private azureEndpoint: string = '';
+  private azureApiKey: string = '';
+  private azureModel: string = '';
+  private azureDeployment: string = '';
+  private azureApiVersion: string = '';
+  private client: AzureOpenAI | null = null; //
+
 
   ngOnInit() {
+
+
+    this.azureEndpoint = "https://adria-mi7zki2g-eastus2.cognitiveservices.azure.com/";
+    this.azureApiKey = "6OZ1lONsrdQbIhTW2aSvz6iSXuoLlOvun3Pe34jeJZMF6hh6mIzQJQQJ99BKACHYHv6XJ3w3AAAAACOGFrqS";
+    this.azureModel = "gpt-5.1-chat";
+    this.azureDeployment = "gpt-5.1-chat";
+    this.azureApiVersion = "2024-04-01-preview";
+    // 2. Inicializa el cliente AHORA, no al cargar el archivo
+
+
+    const options = { 
+      endpoint: this.azureEndpoint, 
+      apiKey: this.azureApiKey, 
+      deployment: this.azureDeployment, 
+      apiVersion: this.azureApiVersion, 
+      dangerouslyAllowBrowser: true
+    };
+
+    this.client = new AzureOpenAI(options);
+    
     const id = Number(this.route.snapshot.paramMap.get('eventoId'));
-    // Esperar a que los eventos estén cargados
+    
     const evento = this.data.getEventById(id);
     if (evento) {
       this.evento = evento;
@@ -284,12 +301,10 @@ export class ItemsPage implements OnInit {
       this.ocrCargando = true;
       this.ocrError = '';
 
-      const options = { endpoint: azureEndpoint, apiKey: azureApiKey, deployment: azureDeployment, apiVersion: azureApiVersion, dangerouslyAllowBrowser: true}
       
-          const client = new AzureOpenAI(options);
       
 
-      const response = await client.chat.completions.create({
+      const response = await this.client!.chat.completions.create({
           messages: [
       
       
@@ -324,7 +339,7 @@ export class ItemsPage implements OnInit {
             
           ],
           max_completion_tokens : 16384,
-            model: azureModel
+            model: this.azureModel
           });
         
         console.log(response.choices[0].message.content);
@@ -354,118 +369,13 @@ export class ItemsPage implements OnInit {
           this.ngOnInit();
         }
         
-      
-      /*
-      const prompt = "Identifica los items de la boleta:\n\n" +
-        "Extrae los items en formato JSON, donde cada item tiene 'name', 'cantidad' y 'price'. " +
-        "Si no hay cantidad, asume 1. Si no puedes identificar items, responde con un array vac├¡o. " +
-        "Identifica el total de la boleta: " +
-        "Identifica el monto de la propina si es que existe " +
-        "Los items que tengan cantidad mayor a 1 deben ser considerados como m├║ltiples items en la respuesta , es decir todo el monto debe ser distribuido entre los items correspondientes y quedar todos en cantidad 1" +
-        "Revisa si el valor total coincide con la suma de los items y/o de la propina, si no cuadra deja la variable cuadratura en false, pero si calza dejalo en true ";
-      try {
-        const responseText = await this.callGeminiWithImage(base64, prompt);
-        let text = responseText.replace(/(\r\n|\n|\r)/gm, "").replace('```json', '').replace('```', '').trim();
-        let responseJson: any;
-        try {
-          responseJson = JSON.parse(text);
-        } catch (e) {
-          const match = text.match(/\{.*\}/);
-          if (match) responseJson = JSON.parse(match[0]);
-          else throw new Error('Formato de respuesta inv├ílido');
-        }
-        if (!responseJson.items || !Array.isArray(responseJson.items)) {
-          throw new Error('La respuesta no contiene un array de items v├ílido');
-        }
-        const items = responseJson.items.map((item: any) => ({
-          name: item.name || '',
-          price: Number(item.price) || 0,
-          cantidad: item.cantidad ? Number(item.cantidad) : 1,
-          participant: item.participant || []
-        }));
-        if (this.evento) {
-          this.evento.items = [...items];
-          this.data.saveEvents();
-          this.ocrCargando = false;
-          this.ngOnInit();
-        }
-      } catch (err: any) {
-        this.ocrError = 'Error procesando la respuesta de Gemini: ' + (err.message || err);
-        this.ocrCargando = false;
-      }*/
+        
     }
-  /*
-  _handleReaderLoaded(readerEvt: any) {
-    var binaryString = readerEvt.target.result;
-    this.base64textString = btoa(binaryString);
-    this.ocrCargando = true;
-    this.ocrError = '';
-    this.callGeminiWithImage(this.base64textString,
-      "Identifica los items de la boleta:\n\n" +
-      "Extrae los items en formato JSON, donde cada item tiene 'name', 'cantidad' y 'price'. " +
-      "Si no hay cantidad, asume 1. Si no puedes identificar items, responde con un array vac├¡o. " +
-      "Identifica el total de la boleta: " +
-      "Identifica el monto de la propina si es que existe " +
-      "Los items que tengan cantidad mayor a 1 deben ser considerados como m├║ltiples items en la respuesta , es decir todo el monto debe ser distribuido entre los items correspondientes y quedar todos en cantidad 1" +
-      "Revisa si el valor total coincide con la suma de los items y/o de la propina, si no cuadra deja la variable cuadratura en false, pero si calza dejalo en true " +
-      "Ejemplo de respuesta:\n{" +
-      "\"total\": 4500," +
-      "\"propina\": 500," +
-      "\"cuadratura\": true," +
-      "\"items\": [" +
-      "[{\"name\": \"Item1\", \"cantidad\": 2, \"price\": 3000}, {\"name\": \"Item2\", \"cantidad\": 1, \"price\": 1500}]" +
-      "]}"
-    ).then(responseText => {
-      try {
-        responseText = responseText.replace(/(\r\n|\n|\r)/gm, "")
-          .replace('```json', '')
-          .replace('```', '')
-          .trim();
-        // Asegurar que la respuesta sea un objeto JSON v├ílido
-        let responseJson;
-        try {
-          responseJson = JSON.parse(responseText);
-        } catch (e) {
-          // Intentar extraer solo el objeto JSON si hay texto extra
-          const match = responseText.match(/\{.*\}/);
-          if (match) {
-            responseJson = JSON.parse(match[0]);
-          } else {
-            throw new Error('Formato de respuesta inv├ílido');
-          }
-        }
-        // Validar que items sea un array
-        if (!responseJson.items || !Array.isArray(responseJson.items)) {
-          throw new Error('La respuesta no contiene un array de items v├ílido');
-        }
-        // Normalizar items para visualizaci├│n
-        const items = responseJson.items.map((item: any) => ({
-          name: item.name || '',
-          price: Number(item.price) || 0,
-          cantidad: item.cantidad ? Number(item.cantidad) : 1,
-          participant: item.participant || []
-        }));
-        if (this.evento) {
-          this.evento.items = [...items];
-          this.data.saveEvents();
-          this.ocrCargando = false;
-          this.ngOnInit();
-        }
-      } catch (err: any) {
-        this.ocrError = 'Error procesando la respuesta de Gemini: ' + (err.message || err);
-        this.ocrCargando = false;
-      }
-    }).catch(err => {
-      this.ocrError = 'Error en la solicitud a Gemini: ' + (err.message || err);
-      this.ocrCargando = false;
-    });
-
-  }*/
 
 
   openAddModal() {
     this.showModal = true;
-    this.cdr.detectChanges();
+    
   }
 
 
@@ -479,51 +389,6 @@ export class ItemsPage implements OnInit {
   }
 
 
-
-  async callGeminiWithImage(base64: string, prompt: string): Promise<string> {
-    // Leer la API key de Gemini desde environment
-    //const apiKey = environment.geminiApiKey;
-    const apiKey = environment.geminiApiKey;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
-    const body = {
-      contents: [
-        {
-          parts: [
-            {
-              inline_data: {
-                mime_type: 'image/jpeg',  // o el tipo correcto (image/png, etc.)
-                data: base64
-              }
-            },
-            {
-              text: prompt
-            }
-          ]
-        }
-      ]
-    };
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    });
-
-    const json = await response.json();
-    // La respuesta tiene ÔÇ£candidatesÔÇØ u otro formato, depender├í del modelo usado
-    // Por simplicidad, supongamos que la respuesta tiene algo como json.candidates[0].text
-    if (json.candidates && json.candidates.length > 0) {
-      //console.log('Respuesta de Gemini:', json.candidates[0].content.parts[0].text);
-      return json.candidates[0].content.parts[0].text;
-    } else if (json.text) {
-      return json.text;
-    } else {
-      throw new Error('Respuesta inesperada de Gemini: ' + JSON.stringify(json));
-    }
-  }
 
 
 

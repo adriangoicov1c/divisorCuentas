@@ -2,7 +2,6 @@
 
 export const environment = {
   production: true,
-  geminiApiKey: (_env.VITE_GEMINI_API_KEY ?? '') as string,
   azure: {
     endpoint: (_env.VITE_AZURE_OPENAI_ENDPOINT ?? '') as string,
     apiKey: (_env.VITE_AZURE_OPENAI_API_KEY ?? '') as string,

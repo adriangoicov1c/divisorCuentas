@@ -16,6 +16,7 @@ export const routes: Routes = [
   },
   {
     path: 'items/:eventoId',
+    //loadComponent: () => import('./items/items.page').then(m => m.ItemsPage),
     loadComponent: () => import('./items/items.page').then(m => m.ItemsPage),
   },
   {
