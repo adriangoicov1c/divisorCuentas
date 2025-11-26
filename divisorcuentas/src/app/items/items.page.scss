@@ -205,3 +205,19 @@ ion-footer {
     box-shadow: 0px 8px 25px rgba(255, 255, 255, 0.05);
   }
 }
+
+ion-item {
+  background: #1f1f1f;
+}
+
+ion-content{
+  background: #1f1f1f;
+}
+
+ion-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #1f1f1f;
+}

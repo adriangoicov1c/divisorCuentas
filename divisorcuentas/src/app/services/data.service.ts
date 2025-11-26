@@ -46,7 +46,7 @@ export class DataService {
     const stored = await this.storageService.getEvents();
     //const stored = null;
     if (stored) {
-      this.events = stored;
+      this.events = stored.sort((a: Evento, b: Evento) => b.date.localeCompare(a.date));
     } else {
       // Si no hay datos, inicializa con los de ejemplo
       this.events = [

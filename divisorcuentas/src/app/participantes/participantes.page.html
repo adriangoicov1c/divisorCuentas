@@ -52,20 +52,36 @@
 
 
   <ion-modal [isOpen]="showModal" (didDismiss)="closeModal()">
-    <ng-template>
+    <ng-template class="ion-padding">
       <ion-header>
         <ion-toolbar>
           <ion-title>{{ editIndex !== null ? 'Editar' : 'Agregar' }} Participante</ion-title>
+          <ion-buttons slot="end">
+          <ion-button (click)="closeModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content>
+      <ion-content >
+        
         <ion-item>
-          <ion-label position="floating">Nombre</ion-label>
-          <ion-input  autocapitalize="sentences" [(ngModel)]="nombreParticipante"></ion-input>
-        </ion-item>
+          
+        <div class="flex flex-col width-full margin-top-5">
+ 
+ 
+          <br>
+          <ion-label>Nombre</ion-label>
+          <ion-input autocapitalize="sentences" [(ngModel)]="nombreParticipante"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#212529] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark h-14 placeholder:text-[#6C757D] p-[15px] text-base font-normal leading-normal"
+            id="event-name" placeholder="Ej: Ricardo" value=""></ion-input>
+          <br>
+        </div>
+
+      </ion-item>
         <ion-footer>
           <ion-button expand="block" (click)="saveParticipante()">Guardar</ion-button>
-          <ion-button expand="block" color="medium" (click)="closeModal()">Cancelar</ion-button>
+          
         </ion-footer>
       </ion-content>
     </ng-template>

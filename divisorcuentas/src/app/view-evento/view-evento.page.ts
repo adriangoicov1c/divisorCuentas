@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonTitle, IonAccordion, IonItem, IonAccordionGroup, IonLabel, IonButton, IonSelectOption, IonModal, IonList, IonCheckbox, IonFooter, IonInput, IonIcon } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { personCircle, trashOutline, checkmarkCircle } from 'ionicons/icons';
+import { personCircle, trashOutline, checkmarkCircle, close } from 'ionicons/icons';
 import { DataService, Evento, Items, Participants } from '../services/data.service';
 
 
@@ -70,7 +70,7 @@ export class ViewEventoPage implements OnInit {
 
 
   constructor(private ngZone: NgZone ) {
-    addIcons({checkmarkCircle,personCircle,trashOutline});
+    addIcons({checkmarkCircle,close,personCircle,trashOutline});
   }
 
   ngOnInit() {
