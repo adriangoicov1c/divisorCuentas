@@ -11,12 +11,17 @@
 
 <ion-content *ngIf="evento">
 
+
+
   <div>
     <p>
       {{ evento.description }}
     </p>
 
     <div class="participants-section">
+
+
+
 
       <section>
         <ion-accordion-group>
@@ -84,11 +89,12 @@
 
 
                 <div style="position: relative; display: inline-block; width: 40px; height: 40px;">
-                    <button (click)="openModal(item)" class="p-2 -mr-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary"
-                      style="width: 40px; height: 40px; position: absolute; left: 0; top: 0; ">
-                      <span class="material-symbols-outlined">person_add</span>
-                    </button>
-                    <!--
+                  <button (click)="openModal(item)"
+                    class="p-2 -mr-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary"
+                    style="width: 40px; height: 40px; position: absolute; left: 0; top: 0; ">
+                    <span class="material-symbols-outlined">person_add</span>
+                  </button>
+                  <!--
                     <ion-select 
                       
                       [(ngModel)]="item.participant" 
@@ -102,7 +108,7 @@
 
 
 
-                  </div>
+                </div>
 
               </div>
             </div>
@@ -148,9 +154,7 @@
 
       <div *ngIf="evento.items && evento.items.length > 0">
         <label class="flex gap-x-3 py-3 items-center">
-          <input [(ngModel)]="incluyePropina" 
-
-            (change)="calcularMontoApagar()"
+          <input [(ngModel)]="incluyePropina" (change)="calcularMontoApagar()"
             class="h-5 w-5 rounded-lg border-2 bg-transparent text-primary checked:bg-primary checked:border-primary checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#1A5A96] border-[#1A5A96]"
             type="checkbox" />
           <p class="text-white text-base font-normal leading-normal">Incluye propina</p>
@@ -163,55 +167,112 @@
 
     <br>
 
-    
 
     <div class="participants-section">
 
       <ion-item slot="header">
         <strong>Detalle por participante:</strong>
+
+        <button slot="end" (click)="compartirDetalle()"
+          class="p-2 -mr-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary">
+          <ion-icon slot="start" name="share-social-outline" style="font-size: xx-large"></ion-icon>
+        </button>
       </ion-item>
-      <section class="mt-8" >
 
-        <div class="space-y-4">
-          <div *ngFor="let participante of evento.participants; let i = index"
-          (click)="toggleCheck(i)"
-            class="p-4 rounded-lg dark:bg-background-dark/50 space-y-3" style="background-color: #06192D;">
-            <div class="flex items-center gap-4">
-              <div class="flex-grow">
-                <p>{{ participante.name }}</p>
-              </div>
-              <ion-icon
-                name="checkmark-circle"
-                color="success"
-                class="check-anim"
-                [class.show]="participante.pagado"
-                slot="end">
-              </ion-icon>
-              <div>
-                <td class=" text-sm   shrink-0" style="float: inline-end;">{{ participante.montoApagar | clpCurrency }}
-                </td>
+      <div id="exportDetalle">
 
+        <section class="mt-8">
+
+          <div class="space-y-4">
+
+            <ion-accordion-group *ngFor="let participante of evento.participants"  expand="inset" style="margin: 0;padding: 0%;" #accordionGroup value="my-accordion-id">
+              <ion-accordion value="my-accordion-id" #participanteItem>
+
+                <!-- Cabecera -->
+                <ion-item slot="header" style="background-color:#06192D;margin: 0;">
+                  <ion-label class="text-white font-semibold">
+                    {{ participante.name }}
+                  </ion-label>
+
+
+                  <ion-icon 
+                    *ngIf="participante.pagado"
+                     
+                    [name]="'checkmark-circle'"
+                    style="font-size: large;"
+                    [color]="'success'">
+                  </ion-icon>
+
+                 
+
+
+
+
+                  <!-- Monto total -->
+                  <strong class="text-white" slot="end">
+                    {{ getTotalParticipante(participante.name) | clpCurrency }}
+                  </strong>
+
+
+                  <!-- Validación 
+                <ion-icon slot="end" [name]="cuadraturaPersona(participante.name) ? 'checkmark-circle' : 'alert-circle'"
+                  [color]="cuadraturaPersona(participante.name) ? 'success' : 'danger'">
+                </ion-icon>
+-->
+                </ion-item>
+
+                <!-- Contenido -->
+                <div class="ion-padding" slot="content">
+                  <div *ngFor="let det of getDetalleParticipante(participante.name)"
+                    class="flex justify-between text-sm text-gray-300 py-1">
+
+                    <span>
+                      {{ det.name }}
+                      <span *ngIf="det.participantes > 1"><label *ngIf="det.name!= 'Propina'">(1/{{ det.participantes
+                          }})</label></span>
+                    </span>
+
+                    <span>{{ det.monto | clpCurrency }}</span>
+                  </div>
+                  <!--
+                <div class="text-right mt-2">
+                  Total: <strong>{{ getTotalParticipante(participante.name) | clpCurrency }}</strong>
+                </div> -->
+                </div>
+
+              </ion-accordion>
+            </ion-accordion-group>
+
+            <!-- Validación global -->
+
+
+            <div class="p-4 rounded-lg bg-white dark:bg-background-dark/50 space-y-3"
+              style="background-color: #06192D;">
+              <div class="flex items-center gap-4">
+                <div class="flex-grow">
+                  <strong>Total</strong>
+                </div>
+                <div>
+                  <strong>{{ totalAsignado() | clpCurrency }}</strong>
+
+                </div>
               </div>
             </div>
-          </div>
-          <div class="p-4 rounded-lg bg-white dark:bg-background-dark/50 space-y-3" style="background-color: #06192D;">
-            <div class="flex items-center gap-4">
-              <div class="flex-grow">
-                <strong>Total</strong>
-              </div>
-              <div>
-                <strong>{{ totalAsignado() | clpCurrency }}</strong>
 
-              </div>
+            <div class="text-center mt-4">
+              <ion-chip color="{{cuadraturaGlobal() ? 'success' : 'danger'}}">
+                {{ cuadraturaGlobal() ? 'Cuadrado ✔' : 'No cuadra ✖' }}
+              </ion-chip>
             </div>
+
           </div>
 
-        </div>
+        </section>
 
-      </section>
+      </div>
     </div>
-        
-    
+
+
     <br><br>
 
 
@@ -225,7 +286,7 @@
 </ion-content>
 
 
-<ion-modal [isOpen]="modal" (didDismiss)="close()" >
+<ion-modal [isOpen]="modal" (didDismiss)="close()">
   <ng-template>
     <ion-header>
       <ion-toolbar>
@@ -237,33 +298,30 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content >
-
-      
-    <ion-list class="ion-padding" style="margin-bottom: 0;">
-      <ion-item *ngFor="let p of evento.participants" (click)="toggleSelection(p)">
-        <ion-label>{{ p.name }}</ion-label>
-
-        <ion-checkbox
-          slot="end"
-          [checked]="tempItemSelected.participant.includes(p.name)"
-          >
-        </ion-checkbox>
-      </ion-item>
-      
-      
-    </ion-list>
+    <ion-content>
 
 
-      
+      <ion-list class="ion-padding" style="margin-bottom: 0;">
+        <ion-item *ngFor="let p of evento.participants" (click)="toggleSelection(p)">
+          <ion-label>{{ p.name }}</ion-label>
+
+          <ion-checkbox slot="end" [checked]="tempItemSelected.participant.includes(p.name)">
+          </ion-checkbox>
+        </ion-item>
+
+
+      </ion-list>
+
+
+
     </ion-content>
     <ion-footer>
 
-        <div class="flex flex-col width-full margin-top-5">
-          <ion-button expand="block" (click)="guardarAsignaciones()">Guardar</ion-button>
+      <div class="flex flex-col width-full margin-top-5">
+        <ion-button expand="block" (click)="guardarAsignaciones()">Guardar</ion-button>
 
-          
-        </div>
-      </ion-footer>
+
+      </div>
+    </ion-footer>
   </ng-template>
 </ion-modal>
