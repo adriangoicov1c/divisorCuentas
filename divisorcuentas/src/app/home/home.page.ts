@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { RefresherCustomEvent, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList, IonButton, IonFab,  IonIcon, IonModal, IonFooter, IonInput, IonLabel, IonItem, IonFabButton, IonButtons } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -56,10 +56,18 @@ export class HomePage {
       description: '',
       incluyePropina: false
     });
+    this.ordenarEventosPorFecha();
     this.closeModal();
   }
 
   async eliminarEvento(id: number) {
     await this.data.deleteEvent(id);
+    this.ordenarEventosPorFecha();
+  }
+
+  async ordenarEventosPorFecha() {
+    this.eventos$ = this.eventos$.pipe(
+      map(eventos => [...eventos].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+    );
   }
 }
